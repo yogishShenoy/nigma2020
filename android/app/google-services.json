@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "132075763686",
+    "firebase_url": "https://nigma2020-cb0e8.firebaseio.com",
+    "project_id": "nigma2020-cb0e8",
+    "storage_bucket": "nigma2020-cb0e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132075763686:android:2f9fb849595e42dea44827",
+        "android_client_info": {
+          "package_name": "com.example.nigma2020"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "132075763686-6f6s7icr4o2p7qbvscg8rg69s0oog091.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nigma2020",
+            "certificate_hash": "1da65bbfdaedca7ac14695f2eb3771c22056f366"
+          }
+        },
+        {
+          "client_id": "132075763686-n9kpqugqbo7nvgk9ps3dek9ghbp5qdcb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8K4xdRgDx6vweL2OZGVFTdbugetQA9BY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "132075763686-n9kpqugqbo7nvgk9ps3dek9ghbp5qdcb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
