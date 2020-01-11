@@ -30,12 +30,19 @@ class crudMethods{
     print("error is $e");
   });
  }
-Future addRound(event,round,data){
+Future addRound(event,round,data)async{
 FirebaseDatabase.instance.reference().child("$event/$round").set(data);
 print("i am called");
 }
-Future removeRound(event,round){
+Future removeRound(event,round)async{
 FirebaseDatabase.instance.reference().child("$event/$round").remove();
+}
+
+Future addColleges(data)async {
+  FirebaseDatabase.instance.reference().child("COLLEGES/${data['CODE']}").set(data);
+}
+Future addResult(event,round,data)async{
+ FirebaseDatabase.instance.reference().child("$event/$round/RESULT").set(data);
 }
 
   getNotification()async{
