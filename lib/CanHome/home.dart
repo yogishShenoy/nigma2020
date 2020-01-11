@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:nigma2020/addShedule.dart';
 import 'package:nigma2020/files/file.dart';
 import 'package:nigma2020/send_notification.dart';
 import 'package:nigma2020/services/CRUD.dart';
@@ -204,8 +205,17 @@ class _HomeState extends State<Home> {
 
           }
             ),
+            
+             ListTile(
+          trailing: Icon(Icons.calendar_today),
+          title: Text("Add/Update Shedule",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,),),
+          onTap: (){
+           Navigator.push(context,  MaterialPageRoute(builder: (context)=>AddShedule(event)));
+          }
+            ),
           ],
         ),
+        Divider(),
         ListTile(
           trailing: Icon(Icons.people),
           title: Text("View Events",style: TextStyle(color: Colors.white),),

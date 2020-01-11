@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
+
+import '../warn_close.dart';
 
 class crudMethods{
+   //DatabaseReference _databaseReference =FirebaseDatabase.instance.reference();
  Future<void> addToken(token)async{
  /*Firestore.instance.collection('ALL TOKENS').add(token).catchError((e){
     print("error is $e");
@@ -20,6 +24,19 @@ class crudMethods{
 
 
  }
+
+ Future sendNotification(data)async{
+   Firestore.instance.collection('notifications').add(data).catchError((e){
+    print("error is $e");
+  });
+ }
+Future addRound(event,round,data){
+FirebaseDatabase.instance.reference().child("$event/$round").set(data);
+print("i am called");
+}
+Future removeRound(event,round){
+FirebaseDatabase.instance.reference().child("$event/$round").remove();
+}
 
   getNotification()async{
     try{

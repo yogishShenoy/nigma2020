@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:nigma2020/services/CRUD.dart';
+import 'package:nigma2020/warn_close.dart';
+
+import 'files/file.dart';
 
 class SendNotification extends StatefulWidget {
   String event="";
@@ -9,6 +13,20 @@ class SendNotification extends StatefulWidget {
 }
 
 class _SendNotificationState extends State<SendNotification> {
+  var phone="";
+  @override
+    void initState(){
+   super.initState();
+              
+   PhoneFile.readFromFile().then((content){
+                             setState(() {
+                               phone=content; 
+                              // print("i am $event");
+                             });
+                           });
+                         
+ 
+ }
   @override
   TextEditingController data=new TextEditingController();
   var err="";
@@ -66,6 +84,8 @@ class _SendNotificationState extends State<SendNotification> {
           setState(() {
             err="* Please enter the message";
           });
+        }else{
+          upload();
         }
       },
     ),
@@ -73,6 +93,28 @@ class _SendNotificationState extends State<SendNotification> {
       ),
     );
   }
+crudMethods crud=new crudMethods();
+  upload()async{
+     Map<String,dynamic>packet1={
+        "head":widget.event,
+        "body":data.text.toString(),
+         "PHONE":phone.toString(),
+         "TIME":DateTime.now().toString(),
+         "TYPE":"NORMAL",
+      };
+      crud.sendNotification(packet1);
+       err_spin("Uploaded sucessfully...");
+
+  }
+  Future<bool> err_spin(String dis) {
+     return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return BeautifulAlertDialog("$dis");
+      }
+    
+    );
+}
 
   Widget _buildHeader() {
     return Stack(

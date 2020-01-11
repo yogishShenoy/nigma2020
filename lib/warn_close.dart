@@ -64,7 +64,7 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
             children: <Widget>[
               SizedBox(width: 20.0),
               spin?CircleAvatar(radius: 40, backgroundColor: Colors.grey.shade300, child:Image.asset("images/spin.gif", width: 80),):
-              CircleAvatar(radius: widget.msg=="login"?40:55, backgroundColor: Colors.grey.shade300, child:widget.msg=="Plaese check your internet connection"?Icon(Icons.signal_cellular_connected_no_internet_4_bar,color: Colors.red.shade900,size: 50,):Image.asset(widget.msg=="login"?"images/all/manager1.png":widget.msg=="Login Sucessfull..."?"images/done.gif":widget.msg=="otp"?"images/mobile.png":'images/warn.png', width: widget.msg=="login"?50:60,height:60),),
+              CircleAvatar(radius: widget.msg=="login"?40:55, backgroundColor: Colors.grey.shade300, child:widget.msg=="Plaese check your internet connection"?Icon(Icons.signal_cellular_connected_no_internet_4_bar,color: Colors.red.shade900,size: 50,):Image.asset(widget.msg=="login"?"images/all/manager1.png":widget.msg=="Login Sucessfull..."||widget.msg=="Uploaded sucessfully..."?"images/done.gif":widget.msg=="otp"?"images/mobile.png":'images/warn.png', width: widget.msg=="login"?50:60,height:60),),
               SizedBox(width: 20.0),
               Expanded(
                 child: Column(
@@ -72,7 +72,7 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                    
-                    Text(widget.msg=="otp"?"OTP":widget.msg=="login"?"EVENT HEAD LOGIN":widget.msg=="Login Sucessfull..."?"":"Alert !", style: TextStyle(color:widget.msg=="login"?Colors.green: Colors.red,fontWeight: FontWeight.bold,fontSize: widget.msg=="login"?13:18),),
+                    Text(widget.msg=="otp"?"OTP":widget.msg=="login"?"EVENT HEAD LOGIN":widget.msg=="Login Sucessfull..."||widget.msg=="Uploaded sucessfully..."?"":"Alert !", style: TextStyle(color:widget.msg=="login"?Colors.green: Colors.red,fontWeight: FontWeight.bold,fontSize: widget.msg=="login"?13:18),),
                     SizedBox(height: 10.0),
                     Flexible(
                       child: widget.msg=="login"||widget.msg=="otp"?
@@ -107,7 +107,7 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
                     Row(children: <Widget>[
                       Expanded(
                         child: RaisedButton(
-                          child: widget.msg=="Plaese check your internet connection"||widget.msg=="Number doesn't exist in record"||widget.msg=="Login Sucessfull..."?Text("OK"):widget.msg=="login"?Text("LOGIN"):widget.msg=="otp"?Text("VERIFY"):Text("No",style: TextStyle(fontSize: MediaQuery.of(context).size.width/32,)),
+                          child: widget.msg=="Plaese check your internet connection"||widget.msg=="Number doesn't exist in record"||widget.msg=="Login Sucessfull..."||widget.msg=="Uploaded sucessfully..."?Text("OK"):widget.msg=="login"?Text("LOGIN"):widget.msg=="otp"?Text("VERIFY"):Text("No",style: TextStyle(fontSize: MediaQuery.of(context).size.width/32,)),
                           color: widget.msg=="login"?Colors.green:Colors.red,
                           colorBrightness: Brightness.dark,
                           onPressed: (){
@@ -139,7 +139,7 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
                         ),
                       ),
                       SizedBox(width: 10.0),
-                      widget.msg!="Plaese check your internet connection" && widget.msg!="login" && widget.msg!="Number doesn't exist in record" && widget.msg!="Login Sucessfull..." && widget.msg!="otp"?
+                      widget.msg!="Plaese check your internet connection" && widget.msg!="login" && widget.msg!="Number doesn't exist in record" && widget.msg!="Login Sucessfull..." && widget.msg!="otp"&&widget.msg!="Uploaded sucessfully..."?
                       Expanded(
                         child: RaisedButton(
                           child: Text("Yes",style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,),),

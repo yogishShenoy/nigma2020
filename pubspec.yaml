@@ -33,6 +33,7 @@ dependencies:
   firebase_database:
   path_provider: ^1.5.1
   cloud_firestore:
+  sliding_up_panel:
 
 dev_dependencies:
   flutter_test:
