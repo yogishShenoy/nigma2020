@@ -9,7 +9,7 @@ import 'package:nigma2020/files/file.dart';
 import 'package:nigma2020/send_notification.dart';
 import 'package:nigma2020/services/CRUD.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import '../notification.dart';
 import '../warn_close.dart';
 //import 'package:semaphore2020/events.dart';
 //import 'package:semaphore2020/login.dart';
@@ -122,7 +122,7 @@ class _HomeState extends State<Home> {
         actions: <Widget>[
           GestureDetector(
             onTap: (){
-             print("tapped");
+             Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications()));
             },
             child: Image.asset("images/bell.gif",height:5,),
           )
