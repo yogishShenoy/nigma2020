@@ -45,7 +45,7 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
         //  gen!=null?
        //build(context):Text("no data"),
       new StreamBuilder(
-    stream: Firestore.instance.collection("notifications").snapshots(),
+    stream: Firestore.instance.collection("notifications").orderBy("TIME",descending: true).snapshots(),
     builder: (context, snapshot) {
       if (!snapshot.hasData) {
         return Text(
@@ -69,38 +69,7 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
      );
     
    }
-    Widget builds(BuildContext context){
-    try{
-    return StreamBuilder(
-            stream:Firestore.instance.collection('notifications').snapshots(), 
-            //initialData: "... Please wait",
-            builder: (context,snapshot) {
-              if(!snapshot.hasData){
-                return Text("Loading..");
-              }else{
-                 List<DocumentSnapshot> items = snapshot.data.documents;
-                print("i am snap ${items.length}");
-              return Text("snap");
-              /* ListView.builder(
-            padding: const EdgeInsets.all(16.0),
-            itemCount: snapshot.hasData==false?0:snapshot.data.documents.length,
-            itemBuilder: (context, index) {
-              return Text("$index");
-              //buildItem(context, snapshot.data.documents[index]);
-            },
-              
-
-          );*/
-               // children: snapshot.data.documents.map((document){
-                 // return _buildItem(context,notification.documents.length);
-               // }),
-                
-              } } );
-    }catch(e){
-     print("i am e$e");
-     return Text("loading..");
-    }
-  }
+   
     Widget buildItem(BuildContext context, DocumentSnapshot document) {
   //  Question question = questions[index];
   //  bool correct = question.correctAnswer == answers[index];

@@ -34,6 +34,7 @@ dependencies:
   path_provider: ^1.5.1
   cloud_firestore:
   sliding_up_panel:
+  auto_size_text: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +58,9 @@ flutter:
   #  - images/a_dot_ham.jpeg
   assets:
    - images/warn.png
+   - images/nigma.jpeg
+   - images/sam.jpeg
+   - images/slogo.jpeg
    - images/n1.gif
    - images/addBook.png
    - images/splash.png

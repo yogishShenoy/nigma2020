@@ -1,4 +1,6 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +12,7 @@ import 'package:nigma2020/addclg.dart';
 import 'package:nigma2020/files/file.dart';
 import 'package:nigma2020/send_notification.dart';
 import 'package:nigma2020/services/CRUD.dart';
+import 'package:nigma2020/showResult.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../notification.dart';
 import '../warn_close.dart';
@@ -60,12 +63,21 @@ class _HomeState extends State<Home> {
   //final FirebaseMessaging _messaging = FirebaseMessaging();
   var event="";
   crudMethods crudup = new crudMethods();
-
+ List alldata=new List();
+ List allkey=new List();
  int page=0;
  final FirebaseMessaging _messaging = FirebaseMessaging();
  @override
  void initState(){
    super.initState();
+   FirebaseDatabase.instance.reference().child("").once().then((val){
+     Map ma=val.value;
+     Iterable it=ma.values;
+     Iterable ik=ma.keys;
+     allkey=ik.toList();
+     alldata=it.toList();
+    // print("aa${allkey}${alldata}");
+   });
     _messaging.getToken().then((token){
               // print(" i m token $token");
                
@@ -140,7 +152,7 @@ class _HomeState extends State<Home> {
       ),
       bottomNavigationBar: _bottomNav(context),
       drawer: _drawer(context),
-      body: appbar=="HOME"?_buildBody(context):appbar=="EVENTS"?viewEvent(context):appbar=="SHEDULE"?viewEvent(context):appbar=="RESULTS"?result(context):_buildBody(context),
+      body: appbar=="HOME"?_buildBody(context):appbar=="EVENTS"?viewEvent(context):appbar=="SHEDULE"?viewEvent(context):appbar=="RESULTS"?viewEvent(context):_buildBody(context),
       )  );
   }
   Future<bool> _onBackPressed() {
@@ -269,21 +281,9 @@ class _HomeState extends State<Home> {
            // Navigator.push(context,MaterialPageRoute(builder: (context)=>LoginPage()));
           },
         ),
-        Divider(),
-        ListTile(
-          trailing: Icon(Icons.message),
-          title: Text("Feedback",style: TextStyle(color: Colors.white),),
-          onTap: (){
-           // EmailData.saveToFile("");
-           //MobileData.saveToFile("");
-           // NameData.saveToFile("");
-           // LogType.saveToFile("");
-           
-          },
-        ),
-        Divider(),
         
-      
+        
+      Divider(),
 
         //white section
         event=="" || event ==null?
@@ -673,174 +673,112 @@ Widget _bottomNav(BuildContext context){
       );
   }
  var categories = [{
-  'sename':"WATER",
-  'name' : "(Best Manager)",
-  'photo' : 'images/all/manager1.png', 
-  'dis' : "The quality of a leader is reflected in the standards they set for themselves...", 
-   'head1':'Varshitha V Acharya',
-   'Phone1':'9008174690',
-   'head2': 'Ananya CS',
-   'Phone2':'7899208308',
-   'head3': 'Shahil Ahemad',
-   'Phone3':'9902712885',
+   'sename':"WATER",
+   'name' : "Best_Manager",
+   'photo' : 'images/all/manager1.png', 
+  'dis' : "The quality of a leader is reflected in the standards they set for themselves...",
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },{
     'sename':"ANIMALS",
-  'name' : "(Finance)",
+  'name' : "Finance",
   'photo' : 'images/all/finance1.png', 
   'dis' : "Beware of little expenses. A small leak will sink a great ship...", 
-   'head1':'Sujith Kumar Jian',
-   'Phone1':'7349709075',
-   'head2': 'Rachana S D',
-   'Phone2':'9483914434',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },
   {
    'sename':"TREE",
-   'name' : "(Human Resource)",
+   'name' : "Human_Resource",
    'photo' : 'images/all/hr2.png', 
    'dis' : "To win the marketplace,you must win the workplace...", 
-    'head1':'Pruthvi Ms',
-   'Phone1':'9008824203',
-   'head2': 'Salwa Shaikh',
-   'Phone2':'7348940360',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },
   {
    'sename':"AIR",
-   'name' : "(Marketing)",
+   'name' : "Marketing",
    'photo' : 'images/all/market1.png', 
    'dis' : "You can't sell anything if u can't tell anything...", 
-    'head1':'Diksha',
-   'Phone1':'9483747753',
-   'head2': 'Anvitha',
-   'Phone2':'9611609766',
-   'head3': 'Shreyas',
-   'Phone3':'8618108112',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },
   {
    'sename':"OCEAN",
-   'name' : "(Ice Breaker)",
+   'name' : "Ice_Breaker",
    'photo' : 'images/all/ice1.png', 
    'dis' : "The sea,once it casts its spell,holds one in its nets of wonder forever...", 
-    'head1':'Jeston Rebello',
-   'Phone1':'9880812102',
-   'head2': 'Chaitra',
-   'Phone2':'8296374608',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },
   {
    'sename':"LIGHT",
-   'name' : "(Photography)",
+   'name' : "Photography",
    'photo' : 'images/all/photo1.png', 
    'dis' : "Photograph open doors into the past,but they also allow a look into the future...", 
-    'head1':'Gagan V Palimar',
-   'Phone1':'8105200784',
-   'head2': 'Dilwaz',
-   'Phone2':'9008825783',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },
   {
    'sename':"BIRDS",
-   'name' : "(Solo Singing)",
+   'name' : "Solo_Singing",
    'photo' : 'images/all/song1.png', 
    'dis' : "Keep a green tree in your heart and perhaps a singing bird will come...", 
-    'head1':'Sushmitha Jain',
-   'Phone1':'9591794266',
-   'head2': 'Shreya Prabhu',
-   'Phone2':'9980564709',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },
   {
    'sename':"SOLAR SYSTEM",
-   'name' : "(Cyber Quest)",
+   'name' : "Cyber_Quest",
    'photo' : 'images/all/cyber1.png', 
    'dis' : "We overcame every obstacle! We reached the sacred circle!...", 
-    'head1':'Nandini K',
-   'Phone1':'9741677763',
-   'head2': 'Deeksha',
-   'Phone2':'8970859557',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },
   {
    'sename':"SKY",
-   'name' : "(Drawing)",
+   'name' : "Drawing",
    'photo' : 'images/all/draw1.png', 
    'dis' : "Clouds come floating into my life, no longer to carry rain or usher storm, but to add colour to my sunset sky...", 
-    'head1':'Shraddha',
-   'Phone1':'7338024689',
-   'head2': 'Gowri Nayak',
-   'Phone2':'9741137107',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },
   {
    'sename':"SOIL",
-   'name' : "(Mock Press)",
+   'name' : "Mock Press",
    'photo' : 'images/all/mock2.png', 
    'dis' : "Find in yourself those human things which are universal...", 
-    'head1':'Shwetha Shetty',
-   'Phone1':'9686253651',
-   'head2': 'Shreya Kotian',
-   'Phone2':'9980061211',
-   'head3': 'Inchara',
-   'Phone3':'8197182285',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },
   {
    'sename':"ICE GLACIER",
-   'name' : "(Mathementum Contour)",
+   'name' : "Mathementum_Contour",
    'photo' : 'images/all/math1.png', 
    'dis' : "If it goes too easy something is wrong...", 
-    'head1':'Aparna Menon',
-   'Phone1':'7338093278',
-   'head2': 'Jayanth',
-   'Phone2':'9972114963',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },
   {
    'sename':"WESTERN GHATS",
-   'name' : "(Quiz)",
+   'name' : "Quiz",
    'photo' : 'images/all/quiz1.png', 
    'dis' : "Unlocking knowledge at the speed of thought...", 
-    'head1':'Merwyn Saldanha',
-   'Phone1':'7259499889',
-   'head2': 'Nandashree',
-   'Phone2':'8277772752',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },
   {
    'sename':"DESERT",
-   'name' : "(Rodies)",
+   'name' : "Rodies",
    'photo' : 'images/all/rody1.png', 
    'dis' : "The day you start saying that I'am a struggler you start losing out, dont struggle love what you do...", 
-    'head1':'Harshith Prabhu',
-   'Phone1':'9481273267',
-   'head2': 'Girish Prabhu',
-   'Phone2':'9964559282',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },{
-   'sename':"DANCE",
-   'name' : "",
+   'sename':"",
+   'name' : "DANCE",
    'photo' : 'images/all/dance1.png', 
    'dis' : "", 
-    'head1':'Yogish',
-   'Phone1':'9980932088',
-   'head2': 'vignesh',
-   'Phone2':'9663628198',
    "imgH1":'images/addBook.png',
    "imgH2":'images/addBook.png',
   },
@@ -856,8 +794,10 @@ Widget _bottomNav(BuildContext context){
       onPressed: ()  {
         if(appbar=="EVENTS"){
         _modalBottomSheetMenu(context,index);
+        }else if(appbar=="RESULTS"){
+         Navigator.push(context, MaterialPageRoute(builder: (context)=>ShowResults(categories[index]['name'])));
         }else{
-          _sheduleBottomSheet(context,index);
+           _sheduleBottomSheet(context,index);
         }
       },
      // _categoryPressed(context,category),
@@ -874,20 +814,42 @@ Widget _bottomNav(BuildContext context){
            Image.asset("${categories[index]['photo']}",height: MediaQuery.of(context).size.height-650,color: Colors.lightGreen,),
         //  if(category.icon != null)
             SizedBox(height: 5.0),
-            Text(
+           AutoSizeText(
            categories[index]['sename'],
             textAlign: TextAlign.center,
-            maxLines: 3,),
-          Text(
-           categories[index]['name'],
+            maxLines: 3,softWrap: true,),
+            FittedBox(
+         child: AutoSizeText(
+           "(${categories[index]['name']})",
             textAlign: TextAlign.center,
-            maxLines: 3,),
+            maxLines: 3,softWrap: true,),)
         ],
       ),
     );
   }
 
   void _modalBottomSheetMenu(BuildContext context, int index){
+    Map sdata=new Map();
+    for(int i=0;i<allkey.length;i++){
+      if(categories[index]['name'].toString().toUpperCase()==allkey[i]){
+       // print("$i ,,, ${allkey[i]},,, ${alldata[i]}");
+       try{
+         setState(() {
+           sdata=alldata[i];
+         });
+       
+       /* Iterable ikey=c.keys;
+        Iterable ival=c.values;
+        selectedkey=ikey.toList();
+        selectedval=ival.toList();
+        print("${selectedkey},,${selectedval}");*/
+        //print("aa, $c");
+       //  print("date : ${selectedval[1]['DATE']}");
+      }catch(e){
+        print(e);
+      }
+      }
+    }
         showModalBottomSheet(
             context: context,
             builder: (builder){
@@ -914,35 +876,44 @@ Widget _bottomNav(BuildContext context){
                             topLeft: const Radius.circular(30.0),
                             topRight: const Radius.circular(30.0))),
                     child: new Center(
-                      child: new ListView(
+                      child: sdata.length<=0?Text("No Data Found"):ListView(
                         children: <Widget>[
-                          Padding(padding: EdgeInsets.only(top: 10)),
+                          Padding(padding: EdgeInsets.only(top: 7)),
                           CircleAvatar(child:Image.asset("${categories[index]['photo']}",height: MediaQuery.of(context).size.height-660,color: Colors.lightGreen,),radius: 50,backgroundColor: Colors.grey.shade700,),
                           
-                          Container(padding: EdgeInsets.only(top: 10),),
-                          Text("${categories[index]['sename']}",textAlign: TextAlign.center,style: TextStyle(fontSize: 18),),
-                          Text("${categories[index]['name']}",textAlign: TextAlign.center,style: TextStyle(fontSize: 16),),
-                            Container(padding: EdgeInsets.only(top: 10),),
+                          Container(padding: EdgeInsets.only(top: 17),),
+                          Text("${categories[index]['sename']}",textAlign: TextAlign.center,style: TextStyle(fontSize: 18),softWrap: true,),
+                          Text("(${categories[index]['name']})",textAlign: TextAlign.center,style: TextStyle(fontSize: 16),softWrap: true,),
+                            Container(padding: EdgeInsets.only(top: 17),),
                           Text("${categories[index]['dis']}",textAlign: TextAlign.left,style: TextStyle(fontSize: 16),),
-                           Padding(padding: EdgeInsets.only(top: 20),),
+                           Padding(padding: EdgeInsets.only(top: 7),),
                           Text("EVENT HEADS",textAlign: TextAlign.center,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
-                          Padding(padding: EdgeInsets.only(top: 10),),
-                          
+                          Padding(padding: EdgeInsets.only(top: 5),),
                          ListTile(
                            leading:Image.asset("${categories[index]['imgH1']}"),
-                           title: Text("${categories[index]['head1']}"),
+                           title: Text("${sdata['Head1']}"),
                            trailing: IconButton(icon: Icon(Icons.call),color: Colors.green,onPressed: (){
-                             launch("tel://${categories[index]['Phone1']}");
+                             launch("tel://${sdata['head1Phone']}");
                            },),
                          ),
-                          Padding(padding: EdgeInsets.only(top: 20),),
+                          Padding(padding: EdgeInsets.only(top: 5),),
                          ListTile(
-                           leading:Image.asset("${categories[index]['imgH2']}"),
-                           title: Text("${categories[index]['head2']}"),
+                           leading:Image.asset("${categories[index]['imgH1']}"),
+                           title: Text("${sdata['Head2']}"),
                            trailing: IconButton(icon: Icon(Icons.call),color: Colors.green,onPressed: (){
-                             launch("tel://${categories[index]['Phone2']}");
+                             launch("tel://${sdata['head2Phone']}");
                            },),
                          ),
+                         Padding(padding: EdgeInsets.only(top: 5),),
+                         sdata.containsKey('Head3')?
+                         ListTile(
+                            leading:Image.asset("${categories[index]['imgH1']}"),
+                           title: Text("${sdata['Head3']}"),
+                           trailing: IconButton(icon: Icon(Icons.call),color: Colors.green,onPressed: (){
+                             launch("tel://${sdata['head3Phone']}");
+                           },),
+
+                         ):Container(),
 
                         ],
                       ),
@@ -952,8 +923,40 @@ Widget _bottomNav(BuildContext context){
         );
       }
 
-
+  List selectedkey =new List();
+  List selectedval =new List();
+    List rindex=new List();
  void _sheduleBottomSheet(BuildContext context, int index){
+    selectedkey.clear();
+    selectedval.clear();
+    rindex.clear();
+    for(int i=0;i<allkey.length;i++){
+      if(categories[index]['name'].toString().toUpperCase()==allkey[i]){
+       // print("$i ,,, ${allkey[i]},,, ${alldata[i]}");
+       try{
+        Map c=alldata[i];
+        Iterable ikey=c.keys;
+        Iterable ival=c.values;
+        selectedkey=ikey.toList();
+        selectedval=ival.toList();
+        print("${selectedkey},,${selectedval}");
+       for(int j=0;j<selectedkey.length;j++){
+         bool r=selectedkey[j].toString().contains('Round');
+                  if(r){
+                    rindex.add(j);
+                  }
+       
+
+        }
+       // print("rindex, $rindex");
+       //  print("date : ${selectedval[1]['DATE']}");
+      }catch(e){
+        print(e);
+      }
+      }
+    }
+    
+
         showModalBottomSheet(
             context: context,
             builder: (builder){
@@ -980,27 +983,41 @@ Widget _bottomNav(BuildContext context){
                             topLeft: const Radius.circular(30.0),
                             topRight: const Radius.circular(30.0))),
                     child: new Center(
-                      child: new ListView(
+                      child: new Column(
                         children: <Widget>[
                           Padding(padding: EdgeInsets.only(top: 10)),
                           Image.asset("${categories[index]['photo']}",height: MediaQuery.of(context).size.height-670,color: Colors.lightGreen,),
                           
                           Container(padding: EdgeInsets.only(top: 10),),
                           Text("${categories[index]['sename']}",textAlign: TextAlign.center,),
-                          Text("${categories[index]['name']}",textAlign: TextAlign.center,),
+                          Text("(${categories[index]['name']})",textAlign: TextAlign.center,),
                            Padding(padding: EdgeInsets.only(top: 10),),
-                          Text("Total Rounds: 5",textAlign: TextAlign.center,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),),
+                          Text("Total Rounds: ${rindex.length}",textAlign: TextAlign.center,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 15),),
                             Container(padding: EdgeInsets.only(top: 10),),
-                        
-                                boxdesign(),
+                            Expanded(
+
+                            child:rindex.length<=0?Center(child:Text("Rounds Not added")):
+                            ListView.builder(
+                              itemCount: rindex.length,
+                              itemBuilder: ((context,ind){
+                                return Column(
+                                  children: <Widget>[
+                                    boxdesign(ind),
+                                     Padding(padding: EdgeInsets.only(top: 10),),
+                                  ],
+                                );
+                              }),
+                            )
+                            ),
+                              
+                               
+                               /* boxdesign(),
                                 Padding(padding: EdgeInsets.only(top: 10),),
                                 boxdesign(),
                                 Padding(padding: EdgeInsets.only(top: 10),),
                                 boxdesign(),
                                 Padding(padding: EdgeInsets.only(top: 10),),
-                                boxdesign(),
-                                Padding(padding: EdgeInsets.only(top: 10),),
-                                boxdesign(),
+                                boxdesign(),*/
                       /*  GridView.count(
                          crossAxisCount: 2,
                          scrollDirection: Axis.vertical,
@@ -1026,10 +1043,9 @@ Widget _bottomNav(BuildContext context){
        
       }
       
- Widget boxdesign(){
+ Widget boxdesign(i){
           return Padding(padding: EdgeInsets.only(right: 10),child: 
           MaterialButton(
-            
       elevation: 1.0,
       highlightElevation: 1.0,
       onPressed: ()  {
@@ -1051,20 +1067,26 @@ Widget _bottomNav(BuildContext context){
           //if(category.icon != null)
            // Icon(Icons.notifications_paused),
            ListTile(
-               leading: Icon(Icons.alarm,color: Colors.green,size: 50,),
+               leading: Column(
+                 children:<Widget>[
+                   Icon(Icons.alarm,color: Colors.green.shade300,size: 35,),
+                   Padding(padding: EdgeInsets.only(bottom: 2),),
+               Text("${selectedkey[rindex[i]]}",textAlign: TextAlign.center,),
+                 ]
+               ),
                title: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                  children: <Widget>[
-                   Text("Day : 1"),
-                   Text("Room No :203"),
+                  Text("DATE : ${selectedval[rindex[i]]['DATE']}"),
+                   Text("Room No : ${selectedval[rindex[i]]['ROOM']}"),
                  ],
                ),
                subtitle:
                Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                  children: <Widget>[
-                   Text("From : 09:00AM",),
-                   Text("To: 10:30AM"),
+                   Text("From : ${selectedval[rindex[i]]['START']}",),
+                   Text("To: ${selectedval[rindex[i]]['END']}"),
                  ],
                ),
            ),
@@ -1076,7 +1098,8 @@ Widget _bottomNav(BuildContext context){
       ),
           )
     );
-        }
+   }
+        
 
 
 
