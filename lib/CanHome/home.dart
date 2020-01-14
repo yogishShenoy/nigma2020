@@ -17,6 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../notification.dart';
 import '../warn_close.dart';
 import 'headResult/addResult.dart';
+import 'package:device_apps/device_apps.dart';
 //import 'package:semaphore2020/events.dart';
 //import 'package:semaphore2020/login.dart';
 //import 'package:semaphore2020/services/CRUD.dart';
@@ -29,12 +30,15 @@ import 'headResult/addResult.dart';
 class Home extends StatefulWidget {
   @override
   int page=0;
-  Home([page]){
+  var type="";
+  Home(page,[type]){
     if(page==null){
       this.page=0;
     }else{
       this.page=page;
     }
+
+   
   }
  
   _HomeState createState() => _HomeState(page);
@@ -58,6 +62,14 @@ class _HomeState extends State<Home> {
         if(page==3){   
            appbar="RESULTS"; 
         }
+        /*if(widget.type!=""){
+          for(int i=0;i<categories.length;i++){
+            if(categories[i]['name'].toString().toUpperCase()==widget.type.toString().toUpperCase()){
+
+              
+            }
+          }
+        }*/
   }
   final TextStyle whiteText = TextStyle(color: Colors.white);
   //final FirebaseMessaging _messaging = FirebaseMessaging();
@@ -70,6 +82,27 @@ class _HomeState extends State<Home> {
  @override
  void initState(){
    super.initState();
+
+      _messaging.configure(
+      /*  onBackgroundMessage: (Map<String,dynamic>msg){
+           print("on onBackgroundMessage001 : $msg");
+        },*/
+  onMessage: (Map<String,dynamic> msg){
+   // noti=true;
+    print("on message001 : $msg");
+  },
+
+  onLaunch: (Map<String,dynamic> msg){
+ //   noti=true;
+    print("onLaunch001 : $msg");
+  },
+  onResume: (Map<String,dynamic> msg){
+   // noti=true;
+    print("onResume001 : $msg");
+  }
+   );
+
+
    FirebaseDatabase.instance.reference().child("").once().then((val){
      Map ma=val.value;
      Iterable it=ma.values;
@@ -114,6 +147,12 @@ class _HomeState extends State<Home> {
    );*/
    
  }
+ Future insta()async{
+    bool isInstalled = await DeviceApps.isAppInstalled('com.instagram.android');
+           if(isInstalled){
+              DeviceApps.openApp('com.instagram.android');
+           }
+ }
 
  addData(var token1){
    if(token1==null){
@@ -150,6 +189,7 @@ class _HomeState extends State<Home> {
         title: Text("$appbar"),
         centerTitle: true,
       ),
+    
       bottomNavigationBar: _bottomNav(context),
       drawer: _drawer(context),
       body: appbar=="HOME"?_buildBody(context):appbar=="EVENTS"?viewEvent(context):appbar=="SHEDULE"?viewEvent(context):appbar=="RESULTS"?viewEvent(context):_buildBody(context),
@@ -177,7 +217,33 @@ class _HomeState extends State<Home> {
     return  Drawer(
         child: ListView(
         children:<Widget>[
-        UserAccountsDrawerHeader(
+          Container(
+            color:Color.fromRGBO(88, 133, 85,1.0) ,
+           // padding: EdgeInsets.only(MediaQuery.of(context).size.height/8),
+           padding: EdgeInsets.only(top: 10,bottom: 30),
+            child: Column(
+               children: <Widget>[
+                 Center(
+                   child: CircleAvatar(
+                       minRadius: 50,
+                      // backgroundColor: Colors.blue.shade300,
+                        child: FittedBox(child: Image.asset('images/slogo.jpeg',height: 50,fit: BoxFit.fill,),),
+                       // CircleAvatar(
+                          //Icon(Icons.tag_faces,color: Colors.yellow,size: 50,),
+                          //backgroundImage: AssetImage('images/slogo.jpeg'),
+                         // minRadius: 50,
+
+                        ),
+                        
+                      //),
+                 ),
+                // Padding(padding: EdgeInsets.only(top: 10),),
+                // FittedBox(child: Image.asset('images/sam.jpeg',height: 50,fit: BoxFit.fill,),),
+               ],
+            ),
+          ),
+
+       /* UserAccountsDrawerHeader(
             decoration: BoxDecoration(
     color: Color.fromRGBO(88, 133, 85,1.0),
   ),
@@ -186,21 +252,24 @@ class _HomeState extends State<Home> {
               //Navigator.push(context, MaterialPageRoute(builder: (context)=>MyInfo()));
               },
             child:
-          CircleAvatar(
-                        minRadius: 60,
-                        backgroundColor: Colors.blue.shade300,
-                        child: CircleAvatar(
-                          child: Icon(Icons.tag_faces,color: Colors.yellow,size: 50,),
-                          //backgroundImage: AssetImage('assets/img/1.jpg'),
-                          minRadius: 50,
+            
+         CircleAvatar(
+                       minRadius: 80,
+                      // backgroundColor: Colors.blue.shade300,
+                        child: FittedBox(child: Image.asset('images/slogo.jpeg',height: 50,fit: BoxFit.contain,),),
+                       // CircleAvatar(
+                          //Icon(Icons.tag_faces,color: Colors.yellow,size: 50,),
+                          //backgroundImage: AssetImage('images/slogo.jpeg'),
+                         // minRadius: 50,
 
                         ),
-                      ),
+                      //),
           ),
+          
           accountEmail: Text("femail"),
           accountName: Text("fname"),
           arrowColor: Colors.green.shade800,
-        ),
+        ),*/
         event=="" || event==null?
         Container()
         :ExpansionTile(
@@ -281,7 +350,16 @@ class _HomeState extends State<Home> {
            // Navigator.push(context,MaterialPageRoute(builder: (context)=>LoginPage()));
           },
         ),
-        
+        Divider(),
+        ListTile(
+         trailing: Icon(Icons.camera),
+         title: Text("Instagram",
+         style: TextStyle(color: Colors.white),),
+         onTap: (){
+          
+        insta();
+         },
+        ),
         
       Divider(),
 
@@ -662,9 +740,7 @@ Widget _bottomNav(BuildContext context){
                   delegate: SliverChildBuilderDelegate(
                     _buildCategoryItem,
                     childCount: categories.length,
-
                   )
-
                 ),
               ),
             ],
@@ -806,21 +882,28 @@ Widget _bottomNav(BuildContext context){
       ),
       color: Colors.grey.shade800,
       textColor: Colors.white70,
-      child: Column(
+      child:
+       Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           //if(category.icon != null)
            // Icon(Icons.notifications_paused),
+          
+            Container(
+               height: MediaQuery.of(context).size.height/10,
+               child:
            Image.asset("${categories[index]['photo']}",height: MediaQuery.of(context).size.height-650,color: Colors.lightGreen,),
+           ),
+           
         //  if(category.icon != null)
             SizedBox(height: 5.0),
            AutoSizeText(
-           categories[index]['sename'],
+           categories[index]['name'],
             textAlign: TextAlign.center,
             maxLines: 3,softWrap: true,),
             FittedBox(
          child: AutoSizeText(
-           "(${categories[index]['name']})",
+           "(${categories[index]['sename']})",
             textAlign: TextAlign.center,
             maxLines: 3,softWrap: true,),)
         ],
@@ -876,10 +959,24 @@ Widget _bottomNav(BuildContext context){
                             topLeft: const Radius.circular(30.0),
                             topRight: const Radius.circular(30.0))),
                     child: new Center(
-                      child: sdata.length<=0?Text("No Data Found"):ListView(
+                      child: sdata.length<=0?
+                      Container(
+                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/4.8),
+                        child:
+                      Column(
+                        children:<Widget>[
+                      Icon(Icons.signal_wifi_off,size: MediaQuery.of(context).size.height/8,color: Colors.red.shade300,),
+                       Padding(padding: EdgeInsets.only(top: 7)),
+                      Text("No Connection...",style: TextStyle(fontWeight:FontWeight.bold,color: Colors.red,fontSize: MediaQuery.of(context).size.width/16))])):ListView(
                         children: <Widget>[
                           Padding(padding: EdgeInsets.only(top: 7)),
-                          CircleAvatar(child:Image.asset("${categories[index]['photo']}",height: MediaQuery.of(context).size.height-660,color: Colors.lightGreen,),radius: 50,backgroundColor: Colors.grey.shade700,),
+                          CircleAvatar(
+                            child:
+                          Container(
+                            height: MediaQuery.of(context).size.height/9.5,
+                            child:
+                          Image.asset("${categories[index]['photo']}",height: MediaQuery.of(context).size.height-660,color: Colors.lightGreen,),
+                          ),radius: 50,backgroundColor: Colors.grey.shade700,),
                           
                           Container(padding: EdgeInsets.only(top: 17),),
                           Text("${categories[index]['sename']}",textAlign: TextAlign.center,style: TextStyle(fontSize: 18),softWrap: true,),
@@ -986,7 +1083,11 @@ Widget _bottomNav(BuildContext context){
                       child: new Column(
                         children: <Widget>[
                           Padding(padding: EdgeInsets.only(top: 10)),
-                          Image.asset("${categories[index]['photo']}",height: MediaQuery.of(context).size.height-670,color: Colors.lightGreen,),
+                          Container(
+                            height: MediaQuery.of(context).size.height/9,
+                            child:
+                          Image.asset("${categories[index]['photo']}",color: Colors.lightGreen,fit: BoxFit.cover,),
+                          ),
                           
                           Container(padding: EdgeInsets.only(top: 10),),
                           Text("${categories[index]['sename']}",textAlign: TextAlign.center,),
@@ -996,7 +1097,7 @@ Widget _bottomNav(BuildContext context){
                             Container(padding: EdgeInsets.only(top: 10),),
                             Expanded(
 
-                            child:rindex.length<=0?Center(child:Text("Rounds Not added")):
+                            child:rindex.length<=0?Center(child:Text("Rounds Not Found...")):
                             ListView.builder(
                               itemCount: rindex.length,
                               itemBuilder: ((context,ind){

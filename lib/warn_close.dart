@@ -107,7 +107,7 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
                     Row(children: <Widget>[
                       Expanded(
                         child: RaisedButton(
-                          child: widget.msg=="Plaese check your internet connection"||widget.msg=="Number doesn't exist in record"||widget.msg=="Login Sucessfull..."||widget.msg=="Uploaded sucessfully..."?Text("OK"):widget.msg=="login"?Text("LOGIN"):widget.msg=="otp"?Text("VERIFY"):Text("No",style: TextStyle(fontSize: MediaQuery.of(context).size.width/32,)),
+                          child: widget.msg=="Plaese check your internet connection"||widget.msg=="Number doesn't exist in record"||widget.msg=="Login Sucessfull..."||widget.msg=="Uploaded sucessfully..."||widget.msg=="Number Blocked!..."?Text("OK"):widget.msg=="login"?Text("LOGIN"):widget.msg=="otp"?Text("VERIFY"):Text("No",style: TextStyle(fontSize: MediaQuery.of(context).size.width/32,)),
                           color: widget.msg=="login"?Colors.green:Colors.red,
                           colorBrightness: Brightness.dark,
                           onPressed: (){
@@ -122,7 +122,7 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
                                   erph="* Invalid";
                                 });
                               }
-                            }else if(widget.msg=="Login Sucessfull..."){
+                            }else if(widget.msg=="Login Sucessfull..."||widget.msg=="Number Blocked!..."){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Home(0)));
                             }else if( widget.msg=="otp"){
                               setState(() {
@@ -139,7 +139,7 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
                         ),
                       ),
                       SizedBox(width: 10.0),
-                      widget.msg!="Plaese check your internet connection" && widget.msg!="login" && widget.msg!="Number doesn't exist in record" && widget.msg!="Login Sucessfull..." && widget.msg!="otp"&&widget.msg!="Uploaded sucessfully..."?
+                      widget.msg!="Plaese check your internet connection" && widget.msg!="login" && widget.msg!="Number doesn't exist in record" && widget.msg!="Login Sucessfull..." && widget.msg!="otp"&& widget.msg!="Uploaded sucessfully..." && widget.msg!="Number Blocked!..."?
                       Expanded(
                         child: RaisedButton(
                           child: Text("Yes",style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,),),
@@ -248,6 +248,7 @@ final FirebaseUser user =
 }).catchError((e) {
   print("please enter again : $e");
   setState(() {
+    spin=false;
     erph="* Verify the SMS code";
   });
 });
@@ -282,6 +283,10 @@ final FirebaseUser user =
    };
    final PhoneVerificationFailed verifiFailed=(AuthException exception){
     print('error i am ${exception.message}');
+   // if(exception.message=="We have blocked all requests from this device due to unusual activity. Try again later."){
+
+   // }
+   err_spin("Number Blocked!...");
    };
    await FirebaseAuth.instance.verifyPhoneNumber(
      phoneNumber:  "+91"+phone.text,
@@ -304,9 +309,28 @@ _databaseReference.child("").once().then((DataSnapshot snapshot){
   Map<dynamic, dynamic> map = snapshot.value;
   List keylist=map.keys.toList();
   List list =map.values.toList();
+  List heads=new List();
+  //print("i am $keylist  ** $list");
+ 
   bool ch=false;
   for(int i=0;i<list.length;i++){
-    if(list[i]['head1Phone'].toString()==phone.text.toString()){
+    heads.clear();
+   // print("\n$i :: ${list[i]}");
+    Map a=list[i];
+    List b=a.keys.toList();
+   // print("\n$i :: ${b}");
+    for(int k=0;k<b.length;k++){
+    if(b[k].contains("head")){
+      heads.add(b[k]);
+      
+    }else{
+      // print("\n${b[k]}");
+    }
+    }
+     print("\n${heads}");
+       
+  for(int j=0;j<heads.length;j++){
+    if(list[i][heads[j]].toString()==phone.text.toString()){
       print("number exist in 1");
       ch=true;
       //err_spin("otp");
@@ -314,7 +338,10 @@ _databaseReference.child("").once().then((DataSnapshot snapshot){
       
       verifyPhone(keylist[i].toString(),phone.text.toString());
       break;
-    }else if(list[i]['head2Phone'].toString()==phone.text.toString()){
+    }
+  }
+  }
+    /*else if(list[i]['head2Phone'].toString()==phone.text.toString()){
      print("number exist in 2");
      ch=true;
     //err_spin("otp");
@@ -322,8 +349,8 @@ _databaseReference.child("").once().then((DataSnapshot snapshot){
     
      verifyPhone(keylist[i].toString(),phone.text.toString());
       break;
-    }
-  }
+    }*/
+  
   if(ch==false){
      setState(() {
         spin=false;
@@ -333,7 +360,9 @@ _databaseReference.child("").once().then((DataSnapshot snapshot){
 
     //print("i ma  ${keylist[0]},${list[0]['head1Phone']}");
     
-  });
+  
+  
+});
   
     }
 

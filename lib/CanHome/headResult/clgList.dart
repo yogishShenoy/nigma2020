@@ -197,6 +197,7 @@ class _ClgListState extends State<ClgList> {
         "body":noti.text.toString(),
          "PHONE":phone.toString(),
          "TIME":DateTime.now().toString(),
+         "ROUND":widget.round,
          "TYPE":"RESULT",
       };
       print("i m pack $packet");

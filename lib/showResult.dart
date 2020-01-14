@@ -3,16 +3,39 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 class ShowResults extends StatefulWidget {
-  var event;
-  ShowResults(this.event);
+  var event,notiRound;
+  ShowResults(this.event,[this.notiRound]);
   @override
   _ShowResultsState createState() => _ShowResultsState();
 }
 
 class _ShowResultsState extends State<ShowResults> {
   var round="";
+   var bools = new List();
+   var bools1 = new List();
   PanelController pannelControl = new PanelController();
    BorderRadiusGeometry radius=BorderRadius.only(topLeft: Radius.circular(24.0),topRight:  Radius.circular(24.0)); 
+   @override
+   void initState(){
+     bools.clear();
+     if(widget.event!=null&&widget.notiRound!=null){
+      print("${widget.event.toString().toUpperCase()}/${widget.notiRound}/RESULT");
+       FirebaseDatabase.instance.reference().child("${widget.event.toString().toUpperCase()}/${widget.notiRound}/RESULT").once().then((val){
+         Map a=val.value;
+         Iterable b=a.values;
+         setState(() {
+            bools1=b.toList();
+         });
+        
+         round=widget.notiRound;
+          print("${widget.event.toString().toUpperCase()}/${widget.notiRound}/ $bools1");
+       
+        
+       });
+     // pannelControl.open();
+     }
+     super.initState();
+   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +48,7 @@ class _ShowResultsState extends State<ShowResults> {
        controller: pannelControl,
        backdropTapClosesPanel: false,
        color: Color.fromRGBO(88, 133, 85,1.0),
+       defaultPanelState: widget.notiRound!=null?PanelState.OPEN:PanelState.CLOSED,
        isDraggable: false,
         maxHeight:MediaQuery.of(context).size.height/1.3,
          minHeight: MediaQuery.of(context).size.height/10, 
@@ -48,7 +72,7 @@ class _ShowResultsState extends State<ShowResults> {
     );
   
   }
-  var bools = new List();
+ 
   Widget bodyPage(BuildContext context){
     var getRound = FirebaseDatabase.instance.reference().child(widget.event.toString().toUpperCase());
     return Container(
@@ -112,7 +136,7 @@ class _ShowResultsState extends State<ShowResults> {
                  },
                  onTap: (){
                    bools.clear();
-                                       FirebaseDatabase.instance.reference().child("${widget.event.toString().toUpperCase()}/${lkey[sindex[index]]}/RESULT").once().then((val){
+                  FirebaseDatabase.instance.reference().child("${widget.event.toString().toUpperCase()}/${lkey[sindex[index]]}/RESULT").once().then((val){
                    print("mm ${val.key}");
                    try{
                   Map ma=val.value;
@@ -164,6 +188,8 @@ class _ShowResultsState extends State<ShowResults> {
       ),
     );
   }
+
+
    Widget bodyPannel(BuildContext context){
     return  Column(
       children:<Widget>[
@@ -180,12 +206,12 @@ class _ShowResultsState extends State<ShowResults> {
             },
           ),
              title: Text(widget.event,style: TextStyle(fontWeight: FontWeight.bold),),
-             subtitle: Text("$round"),
+             subtitle: Text(round==null||round==""?"${widget.notiRound}":"$round"),
         ),
         Expanded(
-          child: bools.length==0?Text("No result"):
+          child: bools1.length==0&&bools.length==0?Text("No result"):
           ListView.builder(
-            itemCount: bools.length,
+            itemCount:bools1.length>0?bools1.length:bools.length,
             itemBuilder: (context,index){
               return Card(
                 margin: EdgeInsets.only(left: 10,right: 10,bottom: 10),
@@ -193,7 +219,7 @@ class _ShowResultsState extends State<ShowResults> {
                 child:Container(
                   padding: EdgeInsets.only(top: 5,bottom: 5),
                   child:
-                 Text(bools.length==0?"No result":"${bools[index]}",textAlign: TextAlign.center,),
+                 Text(bools1.length>0?"${bools1[index]}":bools.length==0?"No result":"${bools[index]}",textAlign: TextAlign.center,),
                 )
               );
             },

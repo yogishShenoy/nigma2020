@@ -104,6 +104,7 @@ crudMethods crud=new crudMethods();
       };
       crud.sendNotification(packet1);
        err_spin("Uploaded sucessfully...");
+       data.text="";
 
   }
   Future<bool> err_spin(String dis) {

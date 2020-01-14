@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'CanHome/home.dart';
+import 'notification.dart';
 //import 'login.dart';
 //import 'new_log.dart';
 class Splash extends StatefulWidget {
@@ -23,8 +25,9 @@ class _SplashState extends State<Splash> {
   }
   ask(){
     timer?.cancel();
-  // Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()) ); 
-   Navigator.push(context, MaterialPageRoute(builder: (context)=>Home(0)) );
+    noti?
+  Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications())):
+   Navigator.push(context, MaterialPageRoute(builder: (context)=>Home(0,"")) );
 
    }
    @override
@@ -50,11 +53,45 @@ class _SplashState extends State<Splash> {
        });
      }
    }
-
+   bool noti=false;
+  final FirebaseMessaging _messaging = FirebaseMessaging();
   @override
   void initState(){
     super.initState();
+    noti=false;
+     _messaging.configure(
+       /* onBackgroundMessage: (Map<String,dynamic>msg){
+         setState(() {
+           noti=true;
+         });
+          
+           print("on onBackgroundMessage001 : $msg");
+        },*/
+  onMessage: (Map<String,dynamic> msg){
+    setState(() {
+         noti=true;
+    });
+ 
+    print("on message : $msg");
+  },
+
+  onLaunch: (Map<String,dynamic> msg){
+    setState(() {
+      noti=true;
+    });
+    
+    print("onLaunch : $msg");
+  },
+  onResume: (Map<String,dynamic> msg){
+    setState(() {
+      noti=true;
+    });
+    
+    print("onResume : $msg");
+  }
+   );
    
+ 
      timer=Timer.periodic(Duration(seconds: n),(Timer){
       dotincr();
      //print("hai");
@@ -105,6 +142,7 @@ class _SplashState extends State<Splash> {
               margin: EdgeInsets.only(top:MediaQuery.of(context).size.height/3.5),
            // SpinKitWave(color: Colors.red,type: SpinKitWaveType.start,),
           // SpinKitPumpingHeart(color: Colors.lightGreenAccent),
+          height: MediaQuery.of(context).size.height/7,
           child:
          Image.asset("images/loader.gif",height:MediaQuery.of(context).size.height-630,width:MediaQuery.of(context).size.width ,color: Colors.green,),),
            // Text("Loading $dot",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),

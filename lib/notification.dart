@@ -1,6 +1,8 @@
  import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:nigma2020/CanHome/home.dart';
+import 'package:nigma2020/showResult.dart';
 
  class Notifications extends StatefulWidget {
    @override
@@ -82,7 +84,11 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: Row(
+          children:<Widget>[
+            Expanded(
+              child:
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text("${document['head']}", style: TextStyle(
@@ -97,16 +103,42 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
               fontWeight: FontWeight.bold
             ),),
            // SizedBox(height: 5.0),
+          ]),
+            ),
+            
             
              Container(
-               alignment: Alignment.bottomRight,
+              // alignment: Alignment.bottomRight,
                child:Column(
                  children:<Widget>[
+                   Container(
+            padding: EdgeInsets.all(5),
+            child: document['TYPE']=="NORMAL"?Container():OutlineButton.icon(
+              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+              borderSide: BorderSide(
+            color: Colors.red, //Color of the border
+            style: BorderStyle.solid, //Style of the border
+            width: 1, //width of the border
+          ),   
+            textColor: Colors.yellow,          icon: document['TYPE']=="RESULT"?Icon(Icons.assessment): document['TYPE']=="ROUND"?Icon(Icons.calendar_today):Icon(Icons.people_outline),
+              label: Text( document['TYPE']=="RESULT"?"Result":document['TYPE']=="ROUND"?"Shedule":"General"),
+              onPressed: (){
+                if(document['TYPE']=="RESULT"){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ShowResults(document['head'],document['ROUND'])));
+                }else if(document['TYPE']=="ROUND"){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Home(2,document['head'])));
+                }
+
+              },
+            ),
+          ),
                Text(" Date : ${date.day}-${date.month}-${date.year}", style: TextStyle(
               color:  Colors.blue ,
               fontSize: 15.0,
               fontWeight: FontWeight.bold
-            ),),
+            ),
+            textAlign: TextAlign.end,
+            ),
             Text(" Time : ${date.hour}:${date.minute}", style: TextStyle(
               color:  Colors.blue ,
               fontSize: 15.0,
@@ -124,6 +156,7 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
             ),style: TextStyle(
               fontSize: 16.0
             ),)*/
+        
           ],
         ),
       ),
