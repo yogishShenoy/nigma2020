@@ -1,9 +1,9 @@
-//import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
@@ -18,13 +18,7 @@ import '../notification.dart';
 import '../warn_close.dart';
 import 'headResult/addResult.dart';
 import 'package:device_apps/device_apps.dart';
-//import 'package:semaphore2020/events.dart';
-//import 'package:semaphore2020/login.dart';
-//import 'package:semaphore2020/services/CRUD.dart';
-//import 'package:semaphore2020/warn_close.dart';
-//import 'myInfo.dart';
-//import 'new_log.dart';
-//import 'notifications/notification.dart';
+
 
 
 class Home extends StatefulWidget {
@@ -45,9 +39,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  //QuerySnapshot  notification;
+ 
   var appbar="HOME";
-  //crudMethods crud=new crudMethods();
+ 
   _HomeState(page){
     this.page=page;
     if(page==0){
@@ -62,17 +56,10 @@ class _HomeState extends State<Home> {
         if(page==3){   
            appbar="RESULTS"; 
         }
-        /*if(widget.type!=""){
-          for(int i=0;i<categories.length;i++){
-            if(categories[i]['name'].toString().toUpperCase()==widget.type.toString().toUpperCase()){
-
-              
-            }
-          }
-        }*/
+        
   }
   final TextStyle whiteText = TextStyle(color: Colors.white);
-  //final FirebaseMessaging _messaging = FirebaseMessaging();
+ 
   var event="";
   crudMethods crudup = new crudMethods();
  List alldata=new List();
@@ -84,21 +71,18 @@ class _HomeState extends State<Home> {
    super.initState();
 
       _messaging.configure(
-      /*  onBackgroundMessage: (Map<String,dynamic>msg){
-           print("on onBackgroundMessage001 : $msg");
-        },*/
+    
   onMessage: (Map<String,dynamic> msg){
-   // noti=true;
-    print("on message001 : $msg");
+   
+   
   },
 
   onLaunch: (Map<String,dynamic> msg){
- //   noti=true;
-    print("onLaunch001 : $msg");
+
   },
   onResume: (Map<String,dynamic> msg){
-   // noti=true;
-    print("onResume001 : $msg");
+   
+    
   }
    );
 
@@ -109,42 +93,20 @@ class _HomeState extends State<Home> {
      Iterable ik=ma.keys;
      allkey=ik.toList();
      alldata=it.toList();
-    // print("aa${allkey}${alldata}");
+   
    });
     _messaging.getToken().then((token){
-              // print(" i m token $token");
+              
                
                addData(token);
-                // print("i am called $token");
                  });
                    
    HeadFile.readFromFile().then((content){
                              setState(() {
                                event=content; 
-                               print("i am $event");
+                              
                              });
                            });
-                         
-  /* crud.getNotification().then((result){
-   
-     setState(() {
-        notification=result;
-     });
-     //print("noti ${notification.documents[0].documentID}");
-     
-   });*/
-  /*_messaging.configure(
-  onMessage: (Map<String,dynamic> msg){
-    print("on message : $msg");
-  },
-
-  onLaunch: (Map<String,dynamic> msg){
-    print("onLaunch : $msg");
-  },
-  onResume: (Map<String,dynamic> msg){
-    print("onResume : $msg");
-  }
-   );*/
    
  }
  Future insta()async{
@@ -156,14 +118,14 @@ class _HomeState extends State<Home> {
 
  addData(var token1){
    if(token1==null){
-     print("oops token is null");
+    
    }else{
        Map<String,dynamic> tokens={
                    "TOKEN" : token1,
                  };
-                 print("uploading..");
+                
                  crudup.addToken(tokens);
-                      //Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                    
    }
     }
   @override
@@ -180,9 +142,6 @@ class _HomeState extends State<Home> {
             },
             child: Image.asset("images/bell.gif",height:5,),
           )
-          /*IconButton(icon: Icon(Icons.notifications_active,color: Colors.yellowAccent,size: 30,),onPressed: (){
-          // Navigator.push(context, MaterialPageRoute(builder: (context)=>CheckAnswersPage()));
-          },),*/
         ],
         backgroundColor: Color.fromRGBO(88, 133, 85,1.0),
         elevation: 0,
@@ -218,58 +177,24 @@ class _HomeState extends State<Home> {
         child: ListView(
         children:<Widget>[
           Container(
-            color:Color.fromRGBO(88, 133, 85,1.0) ,
-           // padding: EdgeInsets.only(MediaQuery.of(context).size.height/8),
+            color:Color.fromRGBO(88, 120, 80,1.0) ,
+        
            padding: EdgeInsets.only(top: 10,bottom: 30),
             child: Column(
                children: <Widget>[
-                 Center(
-                   child: CircleAvatar(
-                       minRadius: 50,
-                      // backgroundColor: Colors.blue.shade300,
-                        child: FittedBox(child: Image.asset('images/slogo.jpeg',height: 50,fit: BoxFit.fill,),),
-                       // CircleAvatar(
-                          //Icon(Icons.tag_faces,color: Colors.yellow,size: 50,),
-                          //backgroundImage: AssetImage('images/slogo.jpeg'),
-                         // minRadius: 50,
+                 
+                   
 
-                        ),
+                
+                 Center(
+                   child:
+                        FittedBox(child: Image.asset('images/logo.png',height: MediaQuery.of(context).size.height/5,fit: BoxFit.fitWidth,),),
                         
-                      //),
+      
                  ),
-                // Padding(padding: EdgeInsets.only(top: 10),),
-                // FittedBox(child: Image.asset('images/sam.jpeg',height: 50,fit: BoxFit.fill,),),
                ],
             ),
           ),
-
-       /* UserAccountsDrawerHeader(
-            decoration: BoxDecoration(
-    color: Color.fromRGBO(88, 133, 85,1.0),
-  ),
-          currentAccountPicture: GestureDetector(
-            onTap: (){
-              //Navigator.push(context, MaterialPageRoute(builder: (context)=>MyInfo()));
-              },
-            child:
-            
-         CircleAvatar(
-                       minRadius: 80,
-                      // backgroundColor: Colors.blue.shade300,
-                        child: FittedBox(child: Image.asset('images/slogo.jpeg',height: 50,fit: BoxFit.contain,),),
-                       // CircleAvatar(
-                          //Icon(Icons.tag_faces,color: Colors.yellow,size: 50,),
-                          //backgroundImage: AssetImage('images/slogo.jpeg'),
-                         // minRadius: 50,
-
-                        ),
-                      //),
-          ),
-          
-          accountEmail: Text("femail"),
-          accountName: Text("fname"),
-          arrowColor: Colors.green.shade800,
-        ),*/
         event=="" || event==null?
         Container()
         :ExpansionTile(
@@ -316,11 +241,7 @@ class _HomeState extends State<Home> {
           title: Text("View Events",style: TextStyle(color: Colors.white),),
           onTap: (){
               Navigator.push(context,MaterialPageRoute(builder: (context)=>Home(1)));
-           // EmailData.saveToFile("");
-           //MobileData.saveToFile("");
-           // NameData.saveToFile("");
-           // LogType.saveToFile("");
-           // Navigator.push(context,MaterialPageRoute(builder: (context)=>LoginPage()));
+           
          
           },
         ),
@@ -330,11 +251,6 @@ class _HomeState extends State<Home> {
           title: Text("Shedule",style: TextStyle(color: Colors.white),),
           onTap: (){
             Navigator.push(context,MaterialPageRoute(builder: (context)=>Home(2)));
-           // EmailData.saveToFile("");
-           //MobileData.saveToFile("");
-           // NameData.saveToFile("");
-           // LogType.saveToFile("");
-           // Navigator.push(context,MaterialPageRoute(builder: (context)=>LoginPage()));
           },
         ),
         Divider(),
@@ -343,17 +259,17 @@ class _HomeState extends State<Home> {
           title: Text("Event Result",style: TextStyle(color: Colors.white),),
           onTap: (){
             Navigator.push(context,MaterialPageRoute(builder: (context)=>Home(3)));
-           // EmailData.saveToFile("");
-           //MobileData.saveToFile("");
-           // NameData.saveToFile("");
-           // LogType.saveToFile("");
-           // Navigator.push(context,MaterialPageRoute(builder: (context)=>LoginPage()));
           },
         ),
         Divider(),
         ListTile(
-         trailing: Icon(Icons.camera),
-         title: Text("Instagram",
+          subtitle: Text("nigm2020",style: TextStyle(color: Colors.yellow.shade300,fontSize: 15),),
+         trailing: FittedBox(
+           fit: BoxFit.cover,
+           child: Image.asset("images/insta.png"),
+           
+         ),
+         title: Text("Follow us :",
          style: TextStyle(color: Colors.white),),
          onTap: (){
           
@@ -363,18 +279,12 @@ class _HomeState extends State<Home> {
         
       Divider(),
 
-        //white section
         event=="" || event ==null?
         ListTile(
           trailing: Icon(Icons.lock_open),
           title: Text("EVENT HEAD LOGIN",style: TextStyle(color: Colors.green.shade800,fontWeight: FontWeight.bold,),),
           onTap: (){
               _login();
-           // EmailData.saveToFile("");
-           //MobileData.saveToFile("");
-           // NameData.saveToFile("");
-           // LogType.saveToFile("");
-           // Navigator.push(context,MaterialPageRoute(builder: (context)=>InvitationAuthPage(0)));
           },
         ):
         ListTile(
@@ -382,12 +292,6 @@ class _HomeState extends State<Home> {
           title: Text("LOGOUT",style: TextStyle(color: Colors.red.shade800,fontWeight: FontWeight.bold,),),
           onTap: (){
                  err_spin("Do you want to logout");
-              //_login();
-           // EmailData.saveToFile("");
-           //MobileData.saveToFile("");
-           // NameData.saveToFile("");
-           // LogType.saveToFile("");
-           // Navigator.push(context,MaterialPageRoute(builder: (context)=>InvitationAuthPage(0)));
           },
         ),
         Divider()
@@ -418,13 +322,12 @@ Widget _bottomNav(BuildContext context){
     onTabChangedListener: (position) {
       setState(() {
         page = position;
-        //print("kbc $currentPage");
+        
        });
        if(page==0){
           setState(() {
            appbar="HOME"; 
           });
-        //Navigator.push(context, MaterialPageRoute(builder: (context)=>student_logged()));
         }
         if(page==1){
           setState(() {
@@ -453,166 +356,41 @@ Widget _bottomNav(BuildContext context){
 
   Widget _buildBody(BuildContext context) {
     return SingleChildScrollView(
-      //padding: const EdgeInsets.all(16.0),
       child: Column(
         children: <Widget>[
-          _buildHeader(),
+         _buildHeader(),
+          
           const SizedBox(height: 20.0),
-         /* Container(
-            padding: EdgeInsets.all(5),
+        
+          Container(
+            margin: EdgeInsets.only(right: MediaQuery.of(context).size.width/1.5),
             child:
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: 190,
-                      color: Colors.blue,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              "9,850",
-                              style:
-                                  Theme.of(context).textTheme.display1.copyWith(
-                                        color: Colors.white,
-                                        fontSize: 24.0,
-                                      ),
-                            ),
-                            trailing: Icon(
+          OutlineButton(
+            onPressed: (){
 
-                              //FontAwesomeIcons.walking,
-                              Icons.assessment,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(
-                              'Event Registered',
-                              style: whiteText,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 10.0),
-                    Container(
-                      height: 120,
-                      color: Colors.green,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              "70",
-                              style:
-                                  Theme.of(context).textTheme.display1.copyWith(
-                                        color: Colors.white,
-                                        fontSize: 24.0,
-                                      ),
-                            ),
-                            trailing: Icon(
-                              //FontAwesomeIcons.heartbeat,
-                              Icons.beenhere,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(
-                              'College Registered',
-                              style: whiteText,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 10.0),
-             Expanded(
-               
-                child: Column(
-                  children: <Widget>[
-                  GestureDetector(
-                onTap: (){
-                  Navigator.push(context,MaterialPageRoute(builder: (context)=>Home(1)));
-                },
-              
-                   child: Container(
-                      height: 120,
-                      color: Colors.green,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              "10",
-                              style:
-                                  Theme.of(context).textTheme.display1.copyWith(
-                                        color: Colors.white,
-                                        fontSize: 24.0,
-                                      ),
-                            ),
-                            trailing: Icon(
-                             // FontAwesomeIcons.fire,
-                             Icons.supervised_user_circle,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(
-                              'Total Events',
-                              style: whiteText,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                    const SizedBox(height: 10.0),
-                    Container(
-                      height: 190,
-                      color: Colors.purple,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              "5",
-                              style:
-                                  Theme.of(context).textTheme.display1.copyWith(
-                                        fontSize: 24.0,
-                                        color: Colors.white,
-                                      ),
-                            ),
-                            trailing: Icon(
-                              Icons.border_color,
-                             // FontAwesomeIcons.road,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(
-                              'Event Left Over',
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-            
-              ),
-            ],
-          )
-          )*/
+            },
+            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+              borderSide: BorderSide(
+            color: Colors.green, //Color of the border
+            style: BorderStyle.solid, //Style of the border
+            width: 5, //width of the border
+          ),   
+          child: Text("     Theme     "),
+          ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 10,right: 10,top: 10),
+            child:
+          Text('SAMSTHITI means togetherness. We 7 billion Humans share this incredible enormous Planet with vast variety of plants and animals together. The basis of our togetherness lies in the existence of 5 basic elements namely Earth, Air Water, fire and Sky Togetherness is an integral part of our life. It unites us, gives us security, much needed support and a sense of belonging and encourage us to love one another. To know we are all in this planet together is a wonderful feeling because we are the chosen one!!!',softWrap: true,style: TextStyle(color: Colors.green.shade200,fontSize: MediaQuery.of(context).size.width/25,fontWeight: FontWeight.bold),),
+          ),
+Center(
+  child:
+          Container(
+            margin: EdgeInsets.only(left: 10,right: 10,top: 20),
+           child: 
+           Text("SAMSTHITI LEADS PRAKRUTHI TO BE IN SWASTHI.",softWrap: true,style: TextStyle(color: Colors.green.shade400,fontSize: MediaQuery.of(context).size.width/28,fontWeight: FontWeight.bold),),
+          ),
+),
         ],
       ),
     );
@@ -629,77 +407,13 @@ Widget _bottomNav(BuildContext context){
               decoration: BoxDecoration(
                 color: Color.fromRGBO(88, 133, 85,1.0),
               ),
-              height: 180,
+              height: MediaQuery.of(context).size.height/3.5,
             ),
           ),
-    /*Row(
-      children: <Widget>[
-        Container(
-          height: 100,
-          width: 100,
-         // color: Colors.yellowAccent,
-         padding: const EdgeInsets.only(left: 10),
-         child: GestureDetector(
-           onTap: (){
-            // Navigator.push(context, MaterialPageRoute(builder: (context)=>MyInfo()));
-           },
-           // child:
-        //  CircleAvatar(
-                      //  minRadius: 60,
-                      //  backgroundColor: Colors.red,
-                        child: CircleAvatar(
-                          child: Icon(Icons.tag_faces,color: Colors.yellow,size: 90,),
-                          //backgroundImage: AssetImage('assets/img/1.jpg'),
-                          minRadius: 50,
+          Center(
+            child: Image.asset("images/logo.png",height: MediaQuery.of(context).size.height/5.1,),
+          )
 
-                        ),
-                     // ),
-          ),
-          /*child: CircularProgressIndicator(
-            value: 0.5,
-            valueColor: AlwaysStoppedAnimation(Colors.blue),
-            backgroundColor: Colors.grey.shade700,
-          ),*/
-        ),
-        const SizedBox(width: 20.0),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              DateTime.now().hour>=5&&DateTime.now().hour<12?Text(
-              "Good Morning ",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0,color: Colors.amber),
-            ):DateTime.now().hour>=12&&DateTime.now().hour<16?
-            Text(
-              "Good Afternoon ",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0,color: Colors.amber),
-            ):DateTime.now().hour>=16&&DateTime.now().hour<20?
-            Text(
-              "Good Evening ",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0,color: Colors.amber),
-            ):DateTime.now().hour>=20&&DateTime.now().hour<24 || DateTime.now().hour>=20&&DateTime.now().hour<5 || DateTime.now().hour>=0&&DateTime.now().hour<5? 
-            Text(
-              "Good Night...",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0,color: Colors.amber),
-            ):Text(
-              "${DateTime.now().hour}",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0,color: Colors.amber),
-            ),
-            const SizedBox(height: 10.0),
-              Text(
-                "Yogish",
-                style: whiteText.copyWith(fontSize: 20.0,color: Colors.white),
-              ),
-              
-              Text(
-                "College Id",
-                style: TextStyle(color: Colors.cyan, fontSize: 16.0),
-              ),
-            ],
-          ),
-        )
-      ],
-    )*/
     ]);
   }
 
@@ -845,7 +559,7 @@ Widget _bottomNav(BuildContext context){
   },
   {
    'sename':"DESERT",
-   'name' : "Rodies",
+   'name' : "Roadies",
    'photo' : 'images/all/rody1.png', 
    'dis' : "The day you start saying that I'am a struggler you start losing out, dont struggle love what you do...", 
    "imgH1":'images/addBook.png',
@@ -862,8 +576,7 @@ Widget _bottomNav(BuildContext context){
   
 ];
    Widget _buildCategoryItem(BuildContext context, int index) {
-   //Category category = categories[index];
-   //print(" hai hai ${categories[index]['name']}");
+   
     return MaterialButton(
       elevation: 1.0,
       highlightElevation: 1.0,
@@ -876,7 +589,7 @@ Widget _bottomNav(BuildContext context){
            _sheduleBottomSheet(context,index);
         }
       },
-     // _categoryPressed(context,category),
+    
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
@@ -886,8 +599,7 @@ Widget _bottomNav(BuildContext context){
        Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          //if(category.icon != null)
-           // Icon(Icons.notifications_paused),
+         
           
             Container(
                height: MediaQuery.of(context).size.height/10,
@@ -895,7 +607,7 @@ Widget _bottomNav(BuildContext context){
            Image.asset("${categories[index]['photo']}",height: MediaQuery.of(context).size.height-650,color: Colors.lightGreen,),
            ),
            
-        //  if(category.icon != null)
+       
             SizedBox(height: 5.0),
            AutoSizeText(
            categories[index]['name'],
@@ -915,19 +627,12 @@ Widget _bottomNav(BuildContext context){
     Map sdata=new Map();
     for(int i=0;i<allkey.length;i++){
       if(categories[index]['name'].toString().toUpperCase()==allkey[i]){
-       // print("$i ,,, ${allkey[i]},,, ${alldata[i]}");
+
        try{
          setState(() {
            sdata=alldata[i];
          });
        
-       /* Iterable ikey=c.keys;
-        Iterable ival=c.values;
-        selectedkey=ikey.toList();
-        selectedval=ival.toList();
-        print("${selectedkey},,${selectedval}");*/
-        //print("aa, $c");
-       //  print("date : ${selectedval[1]['DATE']}");
       }catch(e){
         print(e);
       }
@@ -949,8 +654,7 @@ Widget _bottomNav(BuildContext context){
           ),
               Container(
                 height: 1000.0,
-               // color: Colors.transparent, //could change this to Color(0xFF737373), 
-                           //so you don't have to change MaterialApp canvasColor
+              
                 child: new Container(
                   padding: EdgeInsets.only(left: 15),
                     decoration: new BoxDecoration(
@@ -979,15 +683,15 @@ Widget _bottomNav(BuildContext context){
                           ),radius: 50,backgroundColor: Colors.grey.shade700,),
                           
                           Container(padding: EdgeInsets.only(top: 17),),
-                          Text("${categories[index]['sename']}",textAlign: TextAlign.center,style: TextStyle(fontSize: 18),softWrap: true,),
-                          Text("(${categories[index]['name']})",textAlign: TextAlign.center,style: TextStyle(fontSize: 16),softWrap: true,),
+                          Text("${categories[index]['name']}",textAlign: TextAlign.center,style: TextStyle(fontSize: 18),softWrap: true,),
+                          Text("(${categories[index]['sename']})",textAlign: TextAlign.center,style: TextStyle(fontSize: 16),softWrap: true,),
                             Container(padding: EdgeInsets.only(top: 17),),
                           Text("${categories[index]['dis']}",textAlign: TextAlign.left,style: TextStyle(fontSize: 16),),
                            Padding(padding: EdgeInsets.only(top: 7),),
                           Text("EVENT HEADS",textAlign: TextAlign.center,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
                           Padding(padding: EdgeInsets.only(top: 5),),
                          ListTile(
-                           leading:Image.asset("${categories[index]['imgH1']}"),
+                           leading:Image.asset("images/all/hr3.png",color: Colors.lime,),
                            title: Text("${sdata['Head1']}"),
                            trailing: IconButton(icon: Icon(Icons.call),color: Colors.green,onPressed: (){
                              launch("tel://${sdata['head1Phone']}");
@@ -995,7 +699,7 @@ Widget _bottomNav(BuildContext context){
                          ),
                           Padding(padding: EdgeInsets.only(top: 5),),
                          ListTile(
-                           leading:Image.asset("${categories[index]['imgH1']}"),
+                           leading:Image.asset("images/all/hr3.png",color: Colors.lime),
                            title: Text("${sdata['Head2']}"),
                            trailing: IconButton(icon: Icon(Icons.call),color: Colors.green,onPressed: (){
                              launch("tel://${sdata['head2Phone']}");
@@ -1004,7 +708,7 @@ Widget _bottomNav(BuildContext context){
                          Padding(padding: EdgeInsets.only(top: 5),),
                          sdata.containsKey('Head3')?
                          ListTile(
-                            leading:Image.asset("${categories[index]['imgH1']}"),
+                            leading:Image.asset("images/all/hr3.png",color: Colors.lime),
                            title: Text("${sdata['Head3']}"),
                            trailing: IconButton(icon: Icon(Icons.call),color: Colors.green,onPressed: (){
                              launch("tel://${sdata['head3Phone']}");
@@ -1023,20 +727,26 @@ Widget _bottomNav(BuildContext context){
   List selectedkey =new List();
   List selectedval =new List();
     List rindex=new List();
+    Map mapc=new Map();
  void _sheduleBottomSheet(BuildContext context, int index){
     selectedkey.clear();
     selectedval.clear();
     rindex.clear();
+    setState(() {
+      
+    });
     for(int i=0;i<allkey.length;i++){
       if(categories[index]['name'].toString().toUpperCase()==allkey[i]){
-       // print("$i ,,, ${allkey[i]},,, ${alldata[i]}");
        try{
-        Map c=alldata[i];
-        Iterable ikey=c.keys;
-        Iterable ival=c.values;
+        mapc=alldata[i];
+        Iterable ikey=mapc.keys;
+        Iterable ival=mapc.values;
         selectedkey=ikey.toList();
         selectedval=ival.toList();
-        print("${selectedkey},,${selectedval}");
+
+        selectedkey.sort();
+        
+       
        for(int j=0;j<selectedkey.length;j++){
          bool r=selectedkey[j].toString().contains('Round');
                   if(r){
@@ -1045,8 +755,7 @@ Widget _bottomNav(BuildContext context){
        
 
         }
-       // print("rindex, $rindex");
-       //  print("date : ${selectedval[1]['DATE']}");
+
       }catch(e){
         print(e);
       }
@@ -1070,8 +779,6 @@ Widget _bottomNav(BuildContext context){
           ),
               Container(
                 height: 1000.0,
-               // color: Colors.transparent, //could change this to Color(0xFF737373), 
-                           //so you don't have to change MaterialApp canvasColor
                 child: new Container(
                   padding: EdgeInsets.only(left: 15),
                     decoration: new BoxDecoration(
@@ -1090,8 +797,8 @@ Widget _bottomNav(BuildContext context){
                           ),
                           
                           Container(padding: EdgeInsets.only(top: 10),),
-                          Text("${categories[index]['sename']}",textAlign: TextAlign.center,),
-                          Text("(${categories[index]['name']})",textAlign: TextAlign.center,),
+                          Text("${categories[index]['name']}",textAlign: TextAlign.center,),
+                          Text("(${categories[index]['sename']})",textAlign: TextAlign.center,),
                            Padding(padding: EdgeInsets.only(top: 10),),
                           Text("Total Rounds: ${rindex.length}",textAlign: TextAlign.center,style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 15),),
                             Container(padding: EdgeInsets.only(top: 10),),
@@ -1110,29 +817,6 @@ Widget _bottomNav(BuildContext context){
                               }),
                             )
                             ),
-                              
-                               
-                               /* boxdesign(),
-                                Padding(padding: EdgeInsets.only(top: 10),),
-                                boxdesign(),
-                                Padding(padding: EdgeInsets.only(top: 10),),
-                                boxdesign(),
-                                Padding(padding: EdgeInsets.only(top: 10),),
-                                boxdesign(),*/
-                      /*  GridView.count(
-                         crossAxisCount: 2,
-                         scrollDirection: Axis.vertical,
-                         children: List.generate(5, (i){
-                           return Center(
-                             child: Container(
-                               decoration: BoxDecoration(
-                                 border :Border.all(color:  Colors.grey,width: 3.0),
-                               ),
-                               child: Text("hai"),
-                             ),
-                           );
-                         }),
-                        ),*/
                           
                         ],
                       ),
@@ -1145,18 +829,13 @@ Widget _bottomNav(BuildContext context){
       }
       
  Widget boxdesign(i){
+  
           return Padding(padding: EdgeInsets.only(right: 10),child: 
           MaterialButton(
       elevation: 1.0,
       highlightElevation: 1.0,
       onPressed: ()  {
-      /*  if(appbar=="EVENTS"){
-        _modalBottomSheetMenu(context,index);
-        }else{
-          _sheduleBottomSheet(context,index);
-        }*/
       },
-     // _categoryPressed(context,category),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -1165,35 +844,47 @@ Widget _bottomNav(BuildContext context){
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          //if(category.icon != null)
-           // Icon(Icons.notifications_paused),
            ListTile(
-               leading: Column(
+              isThreeLine: true,
+              trailing: Icon(Icons.alarm,color: Colors.green.shade300,size: 35,),
+               leading: 
+               FittedBox(
+                 child:Column(
                  children:<Widget>[
-                   Icon(Icons.alarm,color: Colors.green.shade300,size: 35,),
-                   Padding(padding: EdgeInsets.only(bottom: 2),),
-               Text("${selectedkey[rindex[i]]}",textAlign: TextAlign.center,),
+                   OutlineButton(
+                     child: Text("${selectedkey[rindex[i]]}",textAlign: TextAlign.center,),
+                     onPressed: (){
+
+                     },
+                     shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+              borderSide: BorderSide(
+            color: Colors.red, //Color of the border
+            style: BorderStyle.solid, //Style of the border
+            width: 5, //width of the border
+          ),   
+
+                   ),
+               
                  ]
+                 )
                ),
                title: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                  children: <Widget>[
-                  Text("DATE : ${selectedval[rindex[i]]['DATE']}"),
-                   Text("Room No : ${selectedval[rindex[i]]['ROOM']}"),
+                  Text("DATE : ${mapc[selectedkey[rindex[i]]]['DATE']}",textAlign: TextAlign.left,),
+                   Text("Place/Room : ${mapc[selectedkey[rindex[i]]]['ROOM']}",textAlign: TextAlign.left),
                  ],
                ),
                subtitle:
                Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                  children: <Widget>[
-                   Text("From : ${selectedval[rindex[i]]['START']}",),
-                   Text("To: ${selectedval[rindex[i]]['END']}"),
+                   Text("From : ${mapc[selectedkey[rindex[i]]]['START']}",),
+                   Text("  To : ${mapc[selectedkey[rindex[i]]]['END']}"),
                  ],
                ),
            ),
            
-           //Image.asset("${categories[0]['photo']}",height: MediaQuery.of(context).size.height-650,color: Colors.lightGreen,),
-        //  if(category.icon != null)
             
         ],
       ),

@@ -29,8 +29,8 @@ class _AddResultState extends State<AddResult> {
           stream: getRound.onValue,
           builder: (context,snap)  {
               if(snap==null){
-               // return loading(context);
-               print("no data");
+               
+              
                return Text("No Rounds");
               }else{
                 List sindex,lval,lkey;
@@ -49,15 +49,12 @@ class _AddResultState extends State<AddResult> {
                   }
                  
                 }
-                print("i am snap, $sindex ${sindex.length}");
+               
                 }catch(e){
-                  print("u passed$e");
+                 
                   return Text("Check your Internet Connection...",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),);
                 }
               return sindex.length>0?
-              //Text("data found ${snapshot.value}");
-           
-        //child: Text("No Rounds found"),
         GridView.count(
           crossAxisCount: 3,
           scrollDirection:  Axis.vertical,
@@ -66,30 +63,31 @@ class _AddResultState extends State<AddResult> {
              child: Center(
                child: GestureDetector(
                  onLongPress: (){
-                //   crud.removeRound(widget.event, lkey[sindex[index]]);
+
                  },
                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ClgList(widget.event,lkey[sindex[index]])));
-                      // pannelControl.open();
-                   
-                     //pannelControl.open();
-                   
                    
                    setState(() {
-                   //  dcontrol.text=lval[sindex[index]]['DATE'];
-                    /// from.text=lval[sindex[index]]['START'];
-                   //  to.text=lval[sindex[index]]['END'];
-                   //  roomcon.text=lval[sindex[index]]['ROOM'];
-                     //grp=
-                   //  round=lkey[sindex[index]];
                    });
                  },
                child: Container(
                  decoration: BoxDecoration(
                    border: Border.all(color: Colors.grey,width: 3.0),
                  ),
-                 padding: EdgeInsets.all(25.0),
+                 padding: EdgeInsets.all(MediaQuery.of(context).size.width/28),
+               child:  OutlineButton(
+                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+              borderSide: BorderSide(
+            color: Colors.red, //Color of the border
+            style: BorderStyle.solid, //Style of the border
+            width: 3, //width of the border
+          ),   
+          onPressed:(){  Navigator.push(context, MaterialPageRoute(builder: (context)=>ClgList(widget.event,lkey[sindex[index]])));},
                  child: Text('${lkey[sindex[index]]}',style: TextStyle(color: Colors.white),),
+                  
+                   
+                  
+               ),
                ),
              ),
              )

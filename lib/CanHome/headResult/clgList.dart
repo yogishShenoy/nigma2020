@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+
 import 'package:nigma2020/files/file.dart';
 import 'package:nigma2020/services/CRUD.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -22,20 +23,17 @@ class _ClgListState extends State<ClgList> {
     void initState(){
    super.initState();
     FirebaseDatabase.instance.reference().child("${widget.event}/${widget.round}/RESULT").once().then((val){
-     print("mm ${val.value}");
+     
      Map ma=val.value;
      Iterable it=ma.values;
      bools=it.toList();
 
-    // List l=a.toList();
-    //print(l);
-
-    });
+   });
    
    PhoneFile.readFromFile().then((content){
                              setState(() {
                                phone=content; 
-                              // print("i am $event");
+                              
                              });
                            });
                          
@@ -63,30 +61,19 @@ class _ClgListState extends State<ClgList> {
         child: Center(
           child:Column(
             children:<Widget>[
-         /* IconButton(
-            iconSize: MediaQuery.of(context).size.height/15,
-            color: Colors.white,
-            icon: Icon(Icons.group_add),
-    onPressed: (){
-      if(pannelControl.isPanelClosed()){
-       // err="";errdn="";errround="";errroom="";errdate="";errfrm="";errto="";
-             pannelControl.open();
-
-           }
-    },
-          ),*/
+        
           Padding(padding: EdgeInsets.only(top: 10),),
           RaisedButton.icon(
             elevation: 100,
             icon: Icon(Icons.done_outline,color: Colors.green.shade100,),
-            label: Text("COFIRM"),
+            label: Text("CONFIRM"),
             onPressed: (){
               if(bools.length>0){
                  pannelControl.open();
               }
             },
           )
-         // Text("Add Round")
+         
             ]
           ),
   ),
@@ -126,7 +113,7 @@ class _ClgListState extends State<ClgList> {
               });
             },
             controller:noti,
-           // maxLines: data.text.length>50?(data.text.length/30).toInt():3,
+           
            maxLines: null,
               keyboardType: TextInputType.multiline,
                               //  obscureText:hidden,
@@ -188,7 +175,7 @@ class _ClgListState extends State<ClgList> {
   upload(){
     Map<String,dynamic>packet=new Map();
     for(int i=0;i<bools.length;i++){
-      print("boo ${bools[i]}");
+     
       packet["CLG_$i"]=bools[i];
         //packet.putIfAbsent("CLG_$i",()=> "${bools[i]}");
     }
@@ -200,7 +187,7 @@ class _ClgListState extends State<ClgList> {
          "ROUND":widget.round,
          "TYPE":"RESULT",
       };
-      print("i m pack $packet");
+    
     crud.sendNotification(packet1);
     crud.addResult(widget.event, widget.round, packet);
     setState(() {
@@ -231,7 +218,7 @@ class _ClgListState extends State<ClgList> {
           builder: (context,snap)  {
               if(snap==null){
                // return loading(context);
-               print("no data");
+              
                return Text("No college");
               }else{
                 List lval,lkey;
@@ -244,15 +231,15 @@ class _ClgListState extends State<ClgList> {
                  lval=ival.toList();
               
                 
-               // print("i am snap, $sindex ${sindex.length}");
+            
                 }catch(e){
-                  print("u passed$e");
+                  
                   return Text("Check your Internet Connection...",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),);
                 }
               return lkey.length>0?
-              //Text("data found ${snapshot.value}");
+              
            
-        //child: Text("No Rounds found"),
+      
        ListView.builder(
            itemCount: lkey.length,
           itemBuilder:(context,index){
@@ -271,10 +258,10 @@ class _ClgListState extends State<ClgList> {
                    setState(() {
           if(val){
             bools.add(lval[index]["CODE"]);
-            print("added $bools ,${bools.contains(lval[index]["CODE"])}");
+           
           }else{
            bools.remove(lval[index]["CODE"]);
-            print("removed ${bools}");
+           
           }
         });
                },
@@ -284,7 +271,7 @@ class _ClgListState extends State<ClgList> {
              subtitle: Text("${lval[index]["NAME"]}",style: TextStyle(color: Colors.blue,),textAlign: TextAlign.center,),
            ),
                ),
-          // Divider(),
+        
              ]
            );
            

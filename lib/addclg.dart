@@ -44,13 +44,13 @@ class _AddClgState extends State<AddClg> {
             icon: Icon(Icons.group_add),
     onPressed: (){
       if(pannelControl.isPanelClosed()){
-       // err="";errdn="";errround="";errroom="";errdate="";errfrm="";errto="";
+      
              pannelControl.open();
 
            }
     },
           ),
-         // Text("Add Round")
+         
             ]
           ),
   ),
@@ -181,7 +181,7 @@ class _AddClgState extends State<AddClg> {
           builder: (context,snap)  {
               if(snap==null){
                // return loading(context);
-               print("no data");
+              
                return Text("No college");
               }else{
                 List lval,lkey;
@@ -193,9 +193,9 @@ class _AddClgState extends State<AddClg> {
                  lkey=ikey.toList();
                  lval=ival.toList();
                 
-               // print("i am snap, $sindex ${sindex.length}");
+               
                 }catch(e){
-                  print("u passed$e");
+                 
                   return Text("Check your Internet Connection...",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),);
                 }
               return lkey.length>0?
@@ -229,7 +229,7 @@ class _AddClgState extends State<AddClg> {
              subtitle: Text("${lval[index]["NAME"]}",style: TextStyle(color: Colors.blue,),textAlign: TextAlign.center,),
            ),
                ),
-          // Divider(),
+         
              ]
            );
            

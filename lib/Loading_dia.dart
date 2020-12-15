@@ -6,7 +6,7 @@ class LoadingDialog extends StatelessWidget {
   LoadingDialog(this.spin);
   @override
   Widget build(BuildContext context) {
-    return spin?Center(
+    return Center(
       child: Dialog(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -27,8 +27,7 @@ class LoadingDialog extends StatelessWidget {
               SizedBox(width: 20.0),
               CircleAvatar(radius: 55, backgroundColor: Colors.grey.shade400, 
               child: 
-              //CircularProgressIndicator(strokeWidth: 10,),
-              //SpinKitWave(color: Colors.red,type: SpinKitWaveType.start,),
+             
               SpinKitRotatingCircle(color: Colors.red.shade900,)
               ),
               SizedBox(width: 20.0),
@@ -37,34 +36,14 @@ class LoadingDialog extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    //Text("Alert!", style: Theme.of(context).textTheme.title,),
+                   
                     SizedBox(height: 10.0),
                     Flexible(
                       child: Text(
                         "Loading...",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontStyle: FontStyle.italic,fontSize: 20))
                     ),
                     SizedBox(height: 10.0),
-                   /* Row(children: <Widget>[
-                      Expanded(
-                        child: RaisedButton(
-                          child: Text("No"),
-                          color: Colors.red,
-                          colorBrightness: Brightness.dark,
-                          onPressed: (){Navigator.pop(context);},
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-                        ),
-                      ),
-                      SizedBox(width: 10.0),
-                      Expanded(
-                        child: RaisedButton(
-                          child: Text("Yes"),
-                          color: Colors.green,
-                          colorBrightness: Brightness.dark,
-                          onPressed: (){exit(0);},
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-                        ),
-                      ),
-                    ],)*/
+                
                   ],
                 ),
               )
@@ -72,6 +51,6 @@ class LoadingDialog extends StatelessWidget {
           ),
         ),
       ),
-    ): Navigator.pop(context);
+    );
   }
 }

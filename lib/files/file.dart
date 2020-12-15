@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 class HeadFile{
@@ -9,7 +9,7 @@ class HeadFile{
 
   static Future<File>get getFile async{
     final path= await getFilePath;
-    print("$path");
+    
     return File('$path/head.txt');
   }
 
@@ -39,7 +39,7 @@ class PhoneFile{
 
   static Future<File>get getFile async{
     final path= await getFilePath;
-    print("$path");
+    
     return File('$path/phone.txt');
   }
 

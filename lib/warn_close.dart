@@ -1,24 +1,17 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:nigma2020/CanHome/home.dart';
 import 'package:nigma2020/Loading_dia.dart';
 
 import 'files/file.dart';
-//import 'package:semaphore2020/new_log.dart';
-//import 'package:instant_mca/student/reminder/DBHelper.dart';
-//import 'package:instant_mca/student/student_logged.dart';
-//import './student/attendence/offline_db/attendence_helper.dart';
-//import 'files/conn1.dart';
-//import 'login.dart';
+
 class BeautifulAlertDialog extends StatefulWidget {
   var msg,delid,sub_name="";
   List vid;
   BeautifulAlertDialog(this.msg,[this.vid]){
-  //print("i m msg=$msg");
+
   }
    BeautifulAlertDialog.delsub(this.msg,this.delid,this.sub_name);
 
@@ -32,14 +25,16 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
   final FirebaseMessaging _messaging = FirebaseMessaging();
   var erph="";
   bool spin_loader=false,spin=false;
-  var verificationId;
+  var verificationId,vevent,vnumber;
   @override
   void initState(){
    super.initState();
     spin=false;
    if(widget.vid!=null){
-     print("${widget.vid[0]} : ${widget.vid[1]} :${widget.vid[2]}");
      verificationId=widget.vid[0];
+     vevent=widget.vid[1];
+     vnumber=widget.vid[2];
+     
    }
   }
   @override
@@ -72,7 +67,7 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                    
-                    Text(widget.msg=="otp"?"OTP":widget.msg=="login"?"EVENT HEAD LOGIN":widget.msg=="Login Sucessfull..."||widget.msg=="Uploaded sucessfully..."?"":"Alert !", style: TextStyle(color:widget.msg=="login"?Colors.green: Colors.red,fontWeight: FontWeight.bold,fontSize: widget.msg=="login"?13:18),),
+                    Text(widget.msg=="otp"?"PASSWORD":widget.msg=="login"?"EVENT HEAD LOGIN":widget.msg=="Login Sucessfull..."||widget.msg=="Uploaded sucessfully..."?"":"Alert !", style: TextStyle(color:widget.msg=="login"?Colors.green: Colors.red,fontWeight: FontWeight.bold,fontSize: widget.msg=="login"?13:18),),
                     SizedBox(height: 10.0),
                     Flexible(
                       child: widget.msg=="login"||widget.msg=="otp"?
@@ -91,8 +86,8 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
                         controller: phone,
                         autofocus: widget.msg=="otp"?true:false,
                        decoration: InputDecoration(
-                        // prefix: Icon(Icons.phone_iphone,color: Colors.blue,),
-                         hintText: widget.msg=="otp"?"OTP":"Mobile number",
+                       
+                         hintText: widget.msg=="otp"?"PASSWORD":"Mobile number",
                          helperText: erph,
                          helperStyle: TextStyle(color: Colors.red)
 
@@ -128,7 +123,8 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
                               setState(() {
                                 spin=true;
                               });
-                              signIn();
+                             // signIn();
+                             checkotp();
                               // err_spin("Login Sucessfull...");
                             }else{
                               Navigator.pop(context);
@@ -151,42 +147,23 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
                              PhoneFile.saveToFile("");
                              Navigator.pop(context);
                              
-                            // Mobile_File.saveToFile("");
-                            // Name_File.saveToFile("");
-                            //  Email_File.saveToFile("");
-                            // Batch_File.saveToFile("");
-                            //  Bid_File.saveToFile("");
                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Home(0)));
                             }else
                             if(widget.msg=="Do you want to delete ${widget.sub_name}"){
-                             //  AttendeceHelper x =new AttendeceHelper();
-                             //  x.delete(delid);
+                            
                                 Navigator.pop(context);
-                               // Navigator.push(context, MaterialPageRoute(builder: (context)=>student_logged(pagenum: 2)));
-                              // student_logged(todos: List.generate(1, (i)=>Todo(2)));
+                              
                                
                             }else if(widget.msg=="Do you want to delete ${widget.sub_name} !"){
                            
-                             // Batch_File.readFromFile().then((content){
-                            // var batch= content.toString();
-                            //  if(batch!=""){
-                            // print("i am file $batch");
-                            // get_num_data(batch);
-                           // NoteHelper y=new NoteHelper();
-                           // String usn=get_usn();
-                            // y.delete(delid);
                               Navigator.pop(context);
-                             // Navigator.push(context, MaterialPageRoute(builder: (context)=>student_logged(pagenum: 3)));
-                         //  }else{
-                            // print("error");
-                          // }
-                         //  });
+                             
                               
                               
 
                              
                             }else if(widget.msg=="Do you Re-Enter Phone Number ?"){
-                               // Navigator.push(context, MaterialPageRoute(builder: (context)=>InvitationAuthPage(0)));
+
                             }
                             
                             
@@ -218,8 +195,7 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
      if(result.isNotEmpty && result[0].rawAddress.isNotEmpty){
        
        check_login();
-      // addData();
-      //verifyPhone();
+      
      }
    }on SocketException catch(_){
      print('not conneted');
@@ -229,79 +205,23 @@ class _BeautifulAlertDialogState extends State<BeautifulAlertDialog> {
    }
     } 
 
-     signIn() async {
-       print("${phone.text},$verificationId");
-      
-   AuthCredential credential = PhoneAuthProvider.getCredential(
-  verificationId: verificationId,
-  smsCode: phone.text,
-);
-       
-
-FirebaseAuth _auth = FirebaseAuth.instance;
-final FirebaseUser user =
-    await _auth.signInWithCredential(credential).then((user) {
-      //print("user is $user");
-     HeadFile.saveToFile("${widget.vid[1]}");
-      PhoneFile.saveToFile("${widget.vid[2]}");
-    err_spin("Login Sucessfull...");
-}).catchError((e) {
-  print("please enter again : $e");
-  setState(() {
-    spin=false;
-    erph="* Verify the SMS code";
-  });
-});
- }
-
-    Future<void> verifyPhone(String event,String number) async{
-   final PhoneCodeAutoRetrievalTimeout autoRetrieve =(String verId){
-     setState(() {
-         verificationId=verId;
-     });
-  
-     //print('veri01 $verificationId');
-   };
-   final PhoneCodeSent smsCodeSent =(String verId,[int forceCodeResend]){
-     setState(() {
-       verificationId=verId;
-     });
-     List l=["$verificationId","$event","$number"];
-      err_spin("otp",l);
-      print('veri02 $verificationId, forceint $forceCodeResend');
-      
-   };
-   final PhoneVerificationCompleted verifiedSuccess = (AuthCredential user) {
-     print('verified');
-      HeadFile.saveToFile("$event");
-      PhoneFile.saveToFile("$number");
+ checkotp(){
+   print("${phone.text}==${verificationId}}");
+  if(phone.text.toString()==verificationId.toString()){
+    print("login done $vevent,$vnumber");
+     HeadFile.saveToFile("$vevent");
+      PhoneFile.saveToFile("$vnumber");
       err_spin("Login Sucessfull...");
-      
-    
-     
-     //Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-   };
-   final PhoneVerificationFailed verifiFailed=(AuthException exception){
-    print('error i am ${exception.message}');
-   // if(exception.message=="We have blocked all requests from this device due to unusual activity. Try again later."){
-
-   // }
-   err_spin("Number Blocked!...");
-   };
-   await FirebaseAuth.instance.verifyPhoneNumber(
-     phoneNumber:  "+91"+phone.text,
-     codeAutoRetrievalTimeout: autoRetrieve,
-     codeSent: smsCodeSent,
-     timeout: const Duration(seconds: 5),
-     verificationFailed: verifiFailed,
-     verificationCompleted: verifiedSuccess,
-   );
-  // Navigator.push(context, MaterialPageRoute(builder: (context)=>InvitationAuthPage(1,phone.text)));
+  }else{
+    print("no login");
+    setState(() {
+      erph="* Wong Password";
+      spin=false;
+    });
+  }
  }
 
- /*List arr=[
-   "BEST MANAGER","FINANCE","HUMAN RESOURCE","MARKETING","ICE BREAKER","PHOTOGRAPHY","SOLO SINGING","CYBER QUEST","DRAWING","MOCK PRESS","MATHEMENTUM CONTOUR","QUIZ","RODIES","DANCE"
- ];*/
+ Map a=new Map();
 
  check_login()async{
   
@@ -310,46 +230,38 @@ _databaseReference.child("").once().then((DataSnapshot snapshot){
   List keylist=map.keys.toList();
   List list =map.values.toList();
   List heads=new List();
-  //print("i am $keylist  ** $list");
+  
  
   bool ch=false;
   for(int i=0;i<list.length;i++){
     heads.clear();
-   // print("\n$i :: ${list[i]}");
-    Map a=list[i];
+     a=list[i];
     List b=a.keys.toList();
-   // print("\n$i :: ${b}");
     for(int k=0;k<b.length;k++){
     if(b[k].contains("head")){
       heads.add(b[k]);
-      
     }else{
-      // print("\n${b[k]}");
+      
     }
     }
-     print("\n${heads}");
+    
        
   for(int j=0;j<heads.length;j++){
     if(list[i][heads[j]].toString()==phone.text.toString()){
-      print("number exist in 1");
       ch=true;
-      //err_spin("otp");
-      //spinner(true);
-      
-      verifyPhone(keylist[i].toString(),phone.text.toString());
+      print("${a['Code']}, ${keylist[i].toString()}");
+
+     
+     List l=["${a['Code']}","${keylist[i].toString()}","${phone.text}"];
+     err_spin("otp",l);
+       // checkotp();
+    
+     // verifyPhone(keylist[i].toString(),phone.text.toString());
       break;
     }
   }
   }
-    /*else if(list[i]['head2Phone'].toString()==phone.text.toString()){
-     print("number exist in 2");
-     ch=true;
-    //err_spin("otp");
-    // spinner(true);
-    
-     verifyPhone(keylist[i].toString(),phone.text.toString());
-      break;
-    }*/
+ 
   
   if(ch==false){
      setState(() {
@@ -358,7 +270,6 @@ _databaseReference.child("").once().then((DataSnapshot snapshot){
       err_spin("Number doesn't exist in record");
   }
 
-    //print("i ma  ${keylist[0]},${list[0]['head1Phone']}");
     
   
   
@@ -379,27 +290,14 @@ _databaseReference.child("").once().then((DataSnapshot snapshot){
     );
 }
 Future<bool> spinner(bool spin) {
-     return spin?showDialog(
+     return showDialog(
       context: context,
       builder: (BuildContext context) {
         return LoadingDialog(spin);
       }
     
-    ):Navigator.pop(context);
+    );
 }
 
-
-
-/*Future<bool> check_login() {
-    final double width=MediaQuery.of(context).size.width;
-    return spin_loader?
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return LoadingDialog();
-      }
-    
-    ):Navigator.pop(context);
-  }*/
 }
 

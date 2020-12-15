@@ -29,7 +29,7 @@ class _AddSheduleState extends State<AddShedule> {
    PhoneFile.readFromFile().then((content){
                              setState(() {
                                phone=content; 
-                              // print("i am $event");
+                              
                              });
                            });
                          
@@ -50,14 +50,13 @@ class _AddSheduleState extends State<AddShedule> {
       ),
       body:SlidingUpPanel(
         controller: pannelControl,
-        //backdropColor: Colors.brown,
-        //backdropOpacity: 1.0,
+       
         backdropTapClosesPanel: false,
-       // backdropEnabled: false,
+      
        color: Color.fromRGBO(88, 133, 85,1.0),
-      // defaultPanelState: pop,
+     
        isDraggable: true,
-    // renderPanelSheet: false, 
+   
     maxHeight:grp=="yes"?MediaQuery.of(context).size.height/1.17:MediaQuery.of(context).size.height/1.35,
    minHeight: MediaQuery.of(context).size.height/10, 
    parallaxEnabled: true,
@@ -80,7 +79,7 @@ class _AddSheduleState extends State<AddShedule> {
            }
     },
           ),
-         // Text("Add Round")
+        
             ]
           ),
   ),
@@ -100,7 +99,7 @@ class _AddSheduleState extends State<AddShedule> {
           stream: getRound.onValue,
           builder: (context,snap)  {
               if(snap==null){
-               // return loading(context);
+              
                print("no data");
                return Text("No Rounds");
               }else{
@@ -113,7 +112,7 @@ class _AddSheduleState extends State<AddShedule> {
                  lkey=ikey.toList();
                  lval=ival.toList();
                  sindex=new List();
-                for(int i=0;i<ikey.length;i++){
+                for(int i=0;i<lkey.length;i++){
                   bool r=lkey[i].toString().contains('Round');
                   if(r){
                     sindex.add(i);
@@ -126,9 +125,9 @@ class _AddSheduleState extends State<AddShedule> {
                   return Text("Check your Internet Connection...",style: TextStyle(color: Colors.red,fontWeight: FontWeight.bold,fontSize: 20),);
                 }
               return sindex.length>0?
-              //Text("data found ${snapshot.value}");
+             
            
-        //child: Text("No Rounds found"),
+       
         GridView.count(
           crossAxisCount: 3,
           scrollDirection:  Axis.vertical,
@@ -141,9 +140,26 @@ class _AddSheduleState extends State<AddShedule> {
                  },
                  onTap: (){
                    
-                      // pannelControl.open();
+                     
                    
-                     pannelControl.open();
+                    
+                 },
+               child: Container(
+                 decoration: BoxDecoration(
+                   border: Border.all(color: Colors.grey,width: 3.0),
+                 ),
+                 padding: EdgeInsets.all(MediaQuery.of(context).size.width/28),
+                 child:OutlineButton(
+                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+              borderSide: BorderSide(
+            color: Colors.red, //Color of the border
+            style: BorderStyle.solid, //Style of the border
+            width: 3, //width of the border
+          ),   
+                   child:
+                  Text('${lkey[sindex[index]]}',style: TextStyle(color: Colors.white),),
+                  onPressed: (){
+                      pannelControl.open();
                    
                    
                    setState(() {
@@ -151,16 +167,11 @@ class _AddSheduleState extends State<AddShedule> {
                      from.text=lval[sindex[index]]['START'];
                      to.text=lval[sindex[index]]['END'];
                      roomcon.text=lval[sindex[index]]['ROOM'];
-                     //grp=
+                   
                      round=lkey[sindex[index]];
                    });
-                 },
-               child: Container(
-                 decoration: BoxDecoration(
-                   border: Border.all(color: Colors.grey,width: 3.0),
+                  },
                  ),
-                 padding: EdgeInsets.all(25.0),
-                 child: Text('${lkey[sindex[index]]}',style: TextStyle(color: Colors.white),),
                ),
              ),
              )
@@ -195,7 +206,7 @@ class _AddSheduleState extends State<AddShedule> {
                      from.text="";
                      to.text="";
                      roomcon.text="";
-                     //grp=
+                    
                      round=null;
               });
               pannelControl.close();
@@ -226,10 +237,10 @@ class _AddSheduleState extends State<AddShedule> {
               });
             },
             controller:data ,
-           // maxLines: data.text.length>50?(data.text.length/30).toInt():3,
+          
            maxLines: null,
               keyboardType: TextInputType.multiline,
-                              //  obscureText:hidden,
+                             
                                 decoration: new InputDecoration(
                                   prefixIcon: Icon(Icons.message),
                                  errorText: err,
@@ -264,10 +275,7 @@ class _AddSheduleState extends State<AddShedule> {
       iconSize: 24,
       elevation: 16,
       style: TextStyle(color: Colors.deepPurple,),
-    /*  underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),*/
+   
       onChanged: (String newValue) {
         setState(() {
           errround="";
@@ -310,7 +318,6 @@ class _AddSheduleState extends State<AddShedule> {
         ).then((date){
           setState(() {
             errdate="";
-            print(date.toString());
             dcontrol.text="${date.day}-${date.month}-${date.year}";
           });
         });
@@ -320,7 +327,7 @@ class _AddSheduleState extends State<AddShedule> {
       title: TextFormField(
          enabled: false,
          controller:dcontrol,
-       // initialValue: _dateTime.toString()!=null&&_dateTime.toString()!=""?_dateTime.toString():"Select date",
+
         decoration: InputDecoration(
           
         ),
@@ -336,9 +343,9 @@ class _AddSheduleState extends State<AddShedule> {
         ).then((time){
           setState(() {
             errfrm="";
-            print("${time.toString()}");
+          
             timecal(time,"f");
-            // from.text="${time.hour}:${time.minute}";
+           
 
            
           });
@@ -349,7 +356,7 @@ class _AddSheduleState extends State<AddShedule> {
       title: TextFormField(
          enabled: false,
          controller:from,
-       // initialValue: _dateTime.toString()!=null&&_dateTime.toString()!=""?_dateTime.toString():"Select date",
+      
         decoration: InputDecoration(
           
         ),
@@ -368,7 +375,7 @@ class _AddSheduleState extends State<AddShedule> {
           setState(() {
             print("${time.toString()}");
            timecal(time,"t");
-          // to.text="${time.hour}:${time.minute}";
+          
           });
         });
       },
@@ -377,7 +384,7 @@ class _AddSheduleState extends State<AddShedule> {
       title: TextFormField(
          enabled: false,
          controller:to,
-       // initialValue: _dateTime.toString()!=null&&_dateTime.toString()!=""?_dateTime.toString():"Select date",
+      
         decoration: InputDecoration(
           
         ),
@@ -460,7 +467,6 @@ class _AddSheduleState extends State<AddShedule> {
        }
       if(grp==""||round==null||roomcon.text==""||roomcon.text==null||dcontrol.text==""||dcontrol.text==null||from.text==""||from.text==null||to.text==""||to.text==null)
         {
-           print("not filled");
         }else{
           
            upload();
@@ -472,13 +478,33 @@ class _AddSheduleState extends State<AddShedule> {
       
      },iconSize: MediaQuery.of(context).size.width/14,),
      ),
-   )
+   ),
+   Padding(padding: EdgeInsets.all(10),)
      
       
     ]);
   }
   void timecal(TimeOfDay time,var z){
     var apm="",apm1="";int t=0, t1=0;
+    if(time.hour==12){
+       if(z=="f"){
+       t=12;
+       apm="PM";
+      }else{
+         t1=12;
+         apm1="PM";
+      }
+       
+    }else if(time.hour==00){
+      if(z=="f"){
+       t=12;
+       apm="AM";
+      }else{
+         t1=12;
+         apm1="AM";
+      }
+         
+    }else
     if(time.hour>12&&time.hour<23){
        if(z=="f"){
              

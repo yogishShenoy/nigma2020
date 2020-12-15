@@ -94,6 +94,8 @@ class _ShowResultsState extends State<ShowResults> {
                  lkey=ikey.toList();
                  lval=ival.toList();
                  sindex=new List();
+               //  print("maps $s");
+                 lkey.sort();
                 for(int i=0;i<ikey.length;i++){
                   bool r=lkey[i].toString().contains('Round');
                   if(r){
@@ -103,7 +105,7 @@ class _ShowResultsState extends State<ShowResults> {
                     
                   }
                 }
-                print("i am snap, $sindex ${sindex.length}");
+           //     print("i am snap, $sindex ${sindex.length}");
                 }catch(e){
                   print("u passed$e");
                   return Center(
@@ -135,19 +137,41 @@ class _ShowResultsState extends State<ShowResults> {
                 //   crud.removeRound(widget.event, lkey[sindex[index]]);
                  },
                  onTap: (){
+                   
+                 },
+               child: Container(
+                 decoration: BoxDecoration(
+                   border: Border.all(color: Colors.grey,width: 3.0),
+                 ),
+                 padding: EdgeInsets.all(MediaQuery.of(context).size.width/28),
+               child:  OutlineButton(
+                 onPressed: (){
+                       bools1.clear();
                    bools.clear();
-                  FirebaseDatabase.instance.reference().child("${widget.event.toString().toUpperCase()}/${lkey[sindex[index]]}/RESULT").once().then((val){
-                   print("mm ${val.key}");
-                   try{
+                   print("aa ${lkey[sindex[index]]}");
+                  FirebaseDatabase.instance.reference().child("${widget.event.toString().toUpperCase()}/${lkey[sindex[index]]}").once().then((val){
+                   
+                   try{ 
+
                   Map ma=val.value;
+                  print("mm ${ma}");
+                 if(ma.containsKey("RESULT")){
                   print("maaa $ma");
-                  Iterable it=ma.values;
-                  bools=it.toList();
+                  Iterable it=ma['RESULT'].values;
+                  setState(() {
+                    bools=it.toList();
+                  });
+                  
+                 }else{
+                   bools.clear();
+                  
+                 }
                    }catch(e){
-                     
+                     print(e);
                    }
                     });
                    setState(() {
+                     bools.clear();
                      round=lkey[sindex[index]];
                    });
                   //  Navigator.push(context, MaterialPageRoute(builder: (context)=>ClgList(widget.event,lkey[sindex[index]])));
@@ -156,22 +180,16 @@ class _ShowResultsState extends State<ShowResults> {
                    
                      //pannelControl.open();
                    
-                   
-                   setState(() {
-                   //  dcontrol.text=lval[sindex[index]]['DATE'];
-                    /// from.text=lval[sindex[index]]['START'];
-                   //  to.text=lval[sindex[index]]['END'];
-                   //  roomcon.text=lval[sindex[index]]['ROOM'];
-                     //grp=
-                   //  round=lkey[sindex[index]];
-                   });
+                 
                  },
-               child: Container(
-                 decoration: BoxDecoration(
-                   border: Border.all(color: Colors.grey,width: 3.0),
-                 ),
-                 padding: EdgeInsets.all(25.0),
+                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+              borderSide: BorderSide(
+            color: Colors.red, //Color of the border
+            style: BorderStyle.solid, //Style of the border
+            width: 3, //width of the border
+          ),   
                  child: Text('${lkey[sindex[index]]}',style: TextStyle(color: Colors.white),),
+               ),
                ),
              ),
              )
